@@ -13,9 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundRadius;
     public LayerMask layerGrounds;
-
+    
     private bool isGrounded;
-    private bool previousMoveWasJump = false;
     private float movementX;
 
     private new Rigidbody2D rigidbody;
@@ -44,28 +43,12 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, layerGrounds);
-        
-        /*if (isGrounded && previousMoveWasJump)
-        {
-            rigidbody.velocity = new Vector2(0, 0);
-            previousMoveWasJump = false;
-        }*/
     }
 
     private void Move(float axis)
     {
-        if (isGrounded)
-        {
-            if (previousMoveWasJump)
-            {
-                movementX = 0;
-                previousMoveWasJump = false;
-                rigidbody.velocity = new Vector2(0, 0);
-            }
-            else
-                movementX = axis * speed;
-        }
-        else previousMoveWasJump = false;
+        if (!isGrounded) return;
+        movementX = axis * speed;
     }
 
     private void Jump()
@@ -73,7 +56,12 @@ public class PlayerMovement : MonoBehaviour
         if (!(isGrounded && ConnectionIsTrue[rigidbody.name])) return;
         rigidbody.velocity = new Vector2(movementX, jumpForce);
         isGrounded = false;
-        previousMoveWasJump = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    { 
+        // Debug.Log("есть контакт");
+        movementX = 0;
     }
 
     private void SwapPlayer()
