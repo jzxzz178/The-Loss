@@ -8,20 +8,14 @@ using UnityEngine.Windows.Speech;
 
 
 [RequireComponent(typeof(LineRenderer))]
-public class LineMaker : MonoBehaviour
+public class TotalNewLineMaker : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public Color c1 = Color.yellow;
-    public Color c2 = Color.red;
-    public Color c3 = Color.blue;
-    public Color c4 = Color.white;
-    
     public LineRenderer line;
     public Vector3 endPoint;
-    public Vector3 square;
-    public Vector3 square1;
+    public Vector3 finish;
+    public Vector3 start;
     
-    private bool flag;
+    // private bool flag;
     private float min;
 
     public void Start()
@@ -29,31 +23,35 @@ public class LineMaker : MonoBehaviour
         line.startWidth = 0.1f;
         line.endWidth = 0.1f;
         line.positionCount = 0;
-        line.SetColors(c4, c4);
     }
     
     public void Update()
     {
-        square1 = Control.start;
-        square = Control.endForLine1;
+        start = GameObject.Find("Player").transform.position;
+        start.y += 1.2f;
         
-        var wall1pos = GameObject.Find("Wall1").transform.position;
-        var wall1scale = GameObject.Find("Wall1").transform.localScale;
-        var wall2pos = GameObject.Find("Wall2").transform.position;
-        var wall2scale = GameObject.Find("Wall2").transform.localScale;
-        
+        finish = GameObject.Find("Player(1)").transform.position;
+        finish.y += 1.2f;
+
         line.positionCount = 2;
         
-        var startPoint = new Vector3(square1.x, square1.y, 10);
-        endPoint = new Vector3(square.x, square.y, 10);
-        flag = false;
-        min = 100000000000000000000f;   
-        ChangeEndPoint(wall1pos, wall1scale);
-        ChangeEndPoint(wall2pos, wall2scale);
-        if (flag)
+        var startPoint = new Vector3(start.x, start.y, 10);
+        endPoint = new Vector3(finish.x, finish.y, 10);
+        // flag = false;
+        min = float.MaxValue;
+        var walls = GameObject.FindGameObjectsWithTag("Wall");
+        foreach (var wall in walls)
+        {
+            var wallPos = wall.transform.position;
+            var wallScale = wall.transform.localScale;
+        
+            ChangeEndPoint(wallPos, wallScale);
+        }
+        
+        /*if (flag)
             PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = false;
         else
-            PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = true;
+            PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = true;*/
         
         line.SetPosition(0, startPoint);
         line.SetPosition(1, endPoint);
@@ -75,10 +73,10 @@ public class LineMaker : MonoBehaviour
             var p2 = points[i + 1];
 
             Vector2? intersectionPoint =
-                FindIntersectionPoint(square.x, square.y, square1.x, square1.y, p1.x, p1.y, p2.x, p2.y);
+                FindIntersectionPoint(finish.x, finish.y, start.x, start.y, p1.x, p1.y, p2.x, p2.y);
             if (intersectionPoint == null) continue;
-            var dx = ((Vector2) intersectionPoint).x - square1.x;
-            var dy = ((Vector2) intersectionPoint).y - square1.y;
+            var dx = ((Vector2) intersectionPoint).x - start.x;
+            var dy = ((Vector2) intersectionPoint).y - start.y;
             var sqrt = (float) Math.Sqrt(dx * dx + dy * dy);
             if (sqrt < min)
             {
@@ -86,7 +84,7 @@ public class LineMaker : MonoBehaviour
                 endPoint = new Vector3(((Vector2) intersectionPoint).x, ((Vector2) intersectionPoint).y, 10);
             }
 
-            flag = true;
+            // flag = true;
         }
     }
 

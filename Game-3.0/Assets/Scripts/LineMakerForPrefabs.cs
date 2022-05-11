@@ -8,7 +8,7 @@ using UnityEngine.Windows.Speech;
 
 
 [RequireComponent(typeof(LineRenderer))]
-public class LineMaker : MonoBehaviour
+public class LineMakerForPrefabs : MonoBehaviour
 {
     // Start is called before the first frame update
     public Color c1 = Color.yellow;
@@ -31,30 +31,27 @@ public class LineMaker : MonoBehaviour
         line.positionCount = 0;
         line.SetColors(c4, c4);
     }
-    
+
+    // Update is called once per frame
     public void Update()
     {
         square1 = Control.start;
         square = Control.endForLine1;
-        
         var wall1pos = GameObject.Find("Wall1").transform.position;
         var wall1scale = GameObject.Find("Wall1").transform.localScale;
         var wall2pos = GameObject.Find("Wall2").transform.position;
         var wall2scale = GameObject.Find("Wall2").transform.localScale;
-        
         line.positionCount = 2;
-        
         var startPoint = new Vector3(square1.x, square1.y, 10);
         endPoint = new Vector3(square.x, square.y, 10);
         flag = false;
-        min = 100000000000000000000f;   
+        min = 100000000000000000000f;
         ChangeEndPoint(wall1pos, wall1scale);
         ChangeEndPoint(wall2pos, wall2scale);
         if (flag)
             PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = false;
         else
             PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = true;
-        
         line.SetPosition(0, startPoint);
         line.SetPosition(1, endPoint);
     }
