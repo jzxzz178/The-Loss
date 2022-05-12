@@ -343,8 +343,90 @@ ScriptedImporter:
     layerID: 50
     mosaicPosition: {x: 4, y: 4}
   characterData:
-    bones: []
-    parts: []
+    bones:
+    - name: bone_1
+      position: {x: 331.36218, y: 625.8474, z: 0}
+      rotation: {x: 0, y: 0, z: -0.71045, w: 0.7037477}
+      length: 542.6518
+      parentId: -1
+    - name: bone_2
+      position: {x: 40.38355, y: -54.91112, z: 0}
+      rotation: {x: 0, y: 0, z: -0.17910284, w: 0.9838304}
+      length: 263.38528
+      parentId: 0
+    parts:
+    - spritePosition:
+        x: 202
+        y: 612
+        width: 223
+        height: 274
+      spriteId: 3d79d3c4ed9236e4f949c4e772eb7d12
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 134
+        y: 280
+        width: 165
+        height: 329
+      spriteId: 7ea9ccf60dca7ae41b7a7967d6a4d9a2
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 206
+        y: 73
+        width: 223
+        height: 588
+      spriteId: 3fb63849b4845f34cbec5f14b318f897
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 345
+        y: 278
+        width: 134
+        height: 324
+      spriteId: 00e3641beba384245bcc60ce5e561b62
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 270
+        y: 0
+        width: 95
+        height: 116
+      spriteId: 7beea14bf15566f4e9a5db10c909b7a6
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 342
+        y: 0
+        width: 95
+        height: 116
+      spriteId: a75f82a8240c45b4388a92965f84631a
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 16
+        y: 622
+        width: 104
+        height: 185
+      spriteId: 785f88befe3fc354295bc5fdad25f8f2
+      bones: 
+      parentGroup: 0
+      order: 0
+    - spritePosition:
+        x: 39
+        y: 200
+        width: 511
+        height: 658
+      spriteId: bd337e91824567c48b98cb35bd817f0d
+      bones: 
+      parentGroup: 0
+      order: 0
     dimension: {x: 0, y: 0}
     characterGroups: []
   generateGOHierarchy: 0
