@@ -12,7 +12,7 @@ using UnityEngine.Windows.Speech;
 public class TotalNewLineMaker : MonoBehaviour
 {
     public LineRenderer line;
-    
+
     public Vector3 startPoint;
     public Vector3 endPoint;
 
@@ -22,9 +22,9 @@ public class TotalNewLineMaker : MonoBehaviour
     private GameObject firstPlayer;
     private GameObject secondPlayer;
 
-    // private bool flag;
+    private bool flag;
     private float min;
-    
+
     public void ChangePlayers(GameObject first, GameObject second)
     {
         firstPlayer = first;
@@ -37,37 +37,35 @@ public class TotalNewLineMaker : MonoBehaviour
         line.endWidth = 0.1f;
         line.positionCount = 0;
     }
-    
+
     public void Update()
     {
         firstPlayerPosition = firstPlayer.transform.position;
         firstPlayerPosition.x += 1.8f;
         firstPlayerPosition.y += 1.2f;
-        
+
         secondPlayerPosition = secondPlayer.transform.position;
         secondPlayerPosition.x += 1.8f;
         secondPlayerPosition.y += 1.2f;
 
         line.positionCount = 2;
-        
+
         startPoint = new Vector3(firstPlayerPosition.x, firstPlayerPosition.y, 10);
         endPoint = new Vector3(secondPlayerPosition.x, secondPlayerPosition.y, 10);
-        
-        // flag = false;
-        
+
+        flag = true;
+
         var walls = GameObject.FindGameObjectsWithTag("Wall");
         foreach (var wall in walls)
         {
             var wallPos = wall.transform.position;
             var wallScale = wall.transform.localScale;
-        
+
             ChangeEndPoint(wallPos, wallScale);
         }
-        min  = float.MaxValue;
-        /*if (flag)
-            PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = false;
-        else
-            PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = true;*/
+
+        min = float.MaxValue;
+        TotalNewControl.UpdateDictionary(secondPlayer, flag);
         line.SetPosition(0, startPoint);
         line.SetPosition(1, endPoint);
     }
@@ -88,7 +86,8 @@ public class TotalNewLineMaker : MonoBehaviour
             var p2 = points[i + 1];
 
             Vector2? intersectionPoint =
-                FindIntersectionPoint(secondPlayerPosition.x, secondPlayerPosition.y, firstPlayerPosition.x, firstPlayerPosition.y, p1.x, p1.y, p2.x, p2.y);
+                FindIntersectionPoint(secondPlayerPosition.x, secondPlayerPosition.y, firstPlayerPosition.x,
+                    firstPlayerPosition.y, p1.x, p1.y, p2.x, p2.y);
             if (intersectionPoint == null) continue;
             var dx = ((Vector2) intersectionPoint).x - firstPlayerPosition.x;
             var dy = ((Vector2) intersectionPoint).y - firstPlayerPosition.y;
@@ -99,7 +98,7 @@ public class TotalNewLineMaker : MonoBehaviour
                 endPoint = new Vector3(((Vector2) intersectionPoint).x, ((Vector2) intersectionPoint).y, 10);
             }
 
-            // flag = true;
+            flag = false;
         }
     }
 
@@ -152,6 +151,7 @@ public class TotalNewLineMaker : MonoBehaviour
             if (x1 <= x && x2 >= x && x3 <= x && x4 >= x)
                 return new Vector2(x, y);
         }
+
         return null;
     }
 }

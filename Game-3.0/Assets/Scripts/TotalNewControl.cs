@@ -8,10 +8,10 @@ using UnityEngine;
 public class TotalNewControl : MonoBehaviour
 {
     private SwapSystem swapSystem;
-    
+
     private static GameObject[] players;
     private static GameObject[] lines;
-    
+
     private static Dictionary<GameObject, bool> linkDictionary = new Dictionary<GameObject, bool>();
     private static int index = -1;
 
@@ -29,10 +29,18 @@ public class TotalNewControl : MonoBehaviour
             linkDictionary[player] = false;
         }
 
+        linkDictionary[players[index + 1]] = true;
+
         lines = GameObject.FindGameObjectsWithTag("Line");
         Distribute();
     }
 
+    public static void UpdateDictionary(GameObject player, bool value)
+    {
+        linkDictionary[player] = value;
+    }
+
+    public static bool CheckForConnection(GameObject player) => linkDictionary[player];
 
     void Update()
     {
@@ -40,8 +48,14 @@ public class TotalNewControl : MonoBehaviour
 
     void Distribute()
     {
-        index = (index + 1) % players.Length;
-        linkDictionary[players[index]] = true;
+        for (var j = 0; j < players.Length; j++)
+        {
+            index = (index + 1) % players.Length;
+            if (linkDictionary[players[index]])
+                break;
+            if (j == players.Length - 1) return;
+        }
+
         var i = 0;
         foreach (var line in lines)
         {
@@ -49,9 +63,8 @@ public class TotalNewControl : MonoBehaviour
             line.GetComponent<TotalNewLineMaker>().ChangePlayers(players[index], players[i]);
             i++;
         }
-        Debug.Log("Distribute()");
     }
-    
+
     private void OnEnable() => swapSystem.Enable();
 
     private void OnDisable() => swapSystem.Disable();
