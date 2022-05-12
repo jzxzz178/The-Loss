@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.Windows.Speech;
@@ -11,12 +12,24 @@ using UnityEngine.Windows.Speech;
 public class TotalNewLineMaker : MonoBehaviour
 {
     public LineRenderer line;
-    public Vector3 endPoint;
-    public Vector3 finish;
-    public Vector3 start;
     
+    public Vector3 endPoint;
+    public Vector3 startPoint;
+    
+    public Vector3 firstPlayerPosition;
+    public Vector3 secondPlayerPosition;
+
+    private GameObject firstPlayer;
+    private GameObject secondPlayer;
+
     // private bool flag;
-    private float min;
+    private float min = float.MaxValue;
+    
+    public void ChangePlayers(GameObject first, GameObject second)
+    {
+        firstPlayer = first;
+        secondPlayer = second;
+    }
 
     public void Start()
     {
@@ -27,18 +40,21 @@ public class TotalNewLineMaker : MonoBehaviour
     
     public void Update()
     {
-        start = GameObject.Find("Player").transform.position;
-        start.y += 1.2f;
+        firstPlayerPosition = firstPlayer.transform.position;
+        firstPlayerPosition.x += 1.8f;
+        firstPlayerPosition.y += 1.2f;
         
-        finish = GameObject.Find("Player(1)").transform.position;
-        finish.y += 1.2f;
+        secondPlayerPosition = secondPlayer.transform.position;
+        secondPlayerPosition.x += 1.8f;
+        secondPlayerPosition.y += 1.2f;
 
         line.positionCount = 2;
         
-        var startPoint = new Vector3(start.x, start.y, 10);
-        endPoint = new Vector3(finish.x, finish.y, 10);
+        startPoint = new Vector3(firstPlayerPosition.x, firstPlayerPosition.y, 10);
+        endPoint = new Vector3(secondPlayerPosition.x, secondPlayerPosition.y, 10);
+        
         // flag = false;
-        min = float.MaxValue;
+        
         var walls = GameObject.FindGameObjectsWithTag("Wall");
         foreach (var wall in walls)
         {
@@ -73,10 +89,10 @@ public class TotalNewLineMaker : MonoBehaviour
             var p2 = points[i + 1];
 
             Vector2? intersectionPoint =
-                FindIntersectionPoint(finish.x, finish.y, start.x, start.y, p1.x, p1.y, p2.x, p2.y);
+                FindIntersectionPoint(secondPlayerPosition.x, secondPlayerPosition.y, firstPlayerPosition.x, firstPlayerPosition.y, p1.x, p1.y, p2.x, p2.y);
             if (intersectionPoint == null) continue;
-            var dx = ((Vector2) intersectionPoint).x - start.x;
-            var dy = ((Vector2) intersectionPoint).y - start.y;
+            var dx = ((Vector2) intersectionPoint).x - firstPlayerPosition.x;
+            var dy = ((Vector2) intersectionPoint).y - firstPlayerPosition.y;
             var sqrt = (float) Math.Sqrt(dx * dx + dy * dy);
             if (sqrt < min)
             {

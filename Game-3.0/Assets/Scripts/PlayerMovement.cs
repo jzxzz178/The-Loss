@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         input.Player.Move.performed += context => Move(context.ReadValue<float>());
         input.Player.Move.canceled += context => Move(0);
         input.Player.Jump.performed += context => Jump();
-        input.Player.SwapPlayer.performed += context => SwapPlayer();
+        // input.Player.SwapPlayer.performed += context => SwapPlayer();
     }
 
     private void Update()

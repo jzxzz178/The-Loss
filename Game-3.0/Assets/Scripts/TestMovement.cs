@@ -22,11 +22,17 @@ public class TestMovement : MonoBehaviour
     {
         input = new PlayerInputSystem();
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        
         input.Player.Move.performed += context => Move(context.ReadValue<float>());
         input.Player.Move.canceled += context => Move(0);
         input.Player.Jump.performed += context => Jump();
         // input.Player.SwapPlayer.performed += context => SwapPlayer();
     }
+
+    /*private static void SwapPlayer()
+    {
+        TotalNewControl.Distribute();
+    }*/
 
     private void Update()
     {
