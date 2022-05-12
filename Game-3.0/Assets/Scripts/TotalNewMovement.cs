@@ -32,10 +32,11 @@ public class TotalNewMovement : MonoBehaviour
 
     private void Update()
     {
-        if (TotalNewControl.CheckForConnection(player))
+        if (!TotalNewControl.CheckForConnection(player))
         {
-            rigidbody.velocity = new Vector2(movementX, rigidbody.velocity.y);
+            movementX = 0;
         }
+        rigidbody.velocity = new Vector2(movementX, rigidbody.velocity.y);
     }
 
     private void FixedUpdate()
@@ -45,7 +46,7 @@ public class TotalNewMovement : MonoBehaviour
 
     private void Move(float axis)
     {
-        if (!isGrounded) return;
+        if (!isGrounded || !TotalNewControl.CheckForConnection(player)) return;
         movementX = axis * speed;
     }
     

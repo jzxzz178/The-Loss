@@ -54,6 +54,7 @@ public class TotalNewLineMaker : MonoBehaviour
         endPoint = new Vector3(secondPlayerPosition.x, secondPlayerPosition.y, 10);
 
         flag = true;
+        min = float.MaxValue;
 
         var walls = GameObject.FindGameObjectsWithTag("Wall");
         foreach (var wall in walls)
@@ -64,8 +65,9 @@ public class TotalNewLineMaker : MonoBehaviour
             ChangeEndPoint(wallPos, wallScale);
         }
 
-        min = float.MaxValue;
+        
         TotalNewControl.UpdateDictionary(secondPlayer, flag);
+        
         line.SetPosition(0, startPoint);
         line.SetPosition(1, endPoint);
     }
