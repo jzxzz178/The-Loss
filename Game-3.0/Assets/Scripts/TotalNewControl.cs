@@ -51,4 +51,8 @@ public class TotalNewControl : MonoBehaviour
         }
         Debug.Log("Distribute()");
     }
+    
+    private void OnEnable() => swapSystem.Enable();
+
+    private void OnDisable() => swapSystem.Disable();
 }

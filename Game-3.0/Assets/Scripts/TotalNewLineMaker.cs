@@ -13,9 +13,9 @@ public class TotalNewLineMaker : MonoBehaviour
 {
     public LineRenderer line;
     
-    public Vector3 endPoint;
     public Vector3 startPoint;
-    
+    public Vector3 endPoint;
+
     public Vector3 firstPlayerPosition;
     public Vector3 secondPlayerPosition;
 
@@ -23,7 +23,7 @@ public class TotalNewLineMaker : MonoBehaviour
     private GameObject secondPlayer;
 
     // private bool flag;
-    private float min = float.MaxValue;
+    private float min;
     
     public void ChangePlayers(GameObject first, GameObject second)
     {
@@ -63,12 +63,11 @@ public class TotalNewLineMaker : MonoBehaviour
         
             ChangeEndPoint(wallPos, wallScale);
         }
-        
+        min  = float.MaxValue;
         /*if (flag)
             PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = false;
         else
             PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = true;*/
-        
         line.SetPosition(0, startPoint);
         line.SetPosition(1, endPoint);
     }
