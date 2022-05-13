@@ -50,8 +50,8 @@ public class TotalNewLineMaker : MonoBehaviour
 
         line.positionCount = 2;
 
-        startPoint = new Vector3(firstPlayerPosition.x, firstPlayerPosition.y, 10);
-        endPoint = new Vector3(secondPlayerPosition.x, secondPlayerPosition.y, 10);
+        startPoint = new Vector3(firstPlayerPosition.x, firstPlayerPosition.y, -2);
+        endPoint = new Vector3(secondPlayerPosition.x, secondPlayerPosition.y, -2);
 
         flag = true;
         min = float.MaxValue;
@@ -97,7 +97,7 @@ public class TotalNewLineMaker : MonoBehaviour
             if (sqrt < min)
             {
                 min = sqrt;
-                endPoint = new Vector3(((Vector2) intersectionPoint).x, ((Vector2) intersectionPoint).y, 10);
+                endPoint = new Vector3(((Vector2) intersectionPoint).x, ((Vector2) intersectionPoint).y, -2);
             }
 
             flag = false;
