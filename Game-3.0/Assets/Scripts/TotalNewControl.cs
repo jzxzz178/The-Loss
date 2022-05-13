@@ -8,6 +8,7 @@ using UnityEngine;
 public class TotalNewControl : MonoBehaviour
 {
     private SwapSystem swapSystem;
+    private TabList list; 
 
     private static GameObject[] players;
     private static GameObject[] lines;
@@ -24,6 +25,7 @@ public class TotalNewControl : MonoBehaviour
         swapSystem = new SwapSystem();
         swapSystem.SwapPlayer.Swap.performed += context => Distribute();
         queueList = new LinkedList<PlayerCell>();
+        list = new TabList();
         // queue = new Queue<GameObject>();
     }
 
@@ -43,7 +45,7 @@ public class TotalNewControl : MonoBehaviour
     public static void UpdateDictionary(GameObject player, bool value)
     {
         linkDictionary[player] = value;
-        var playerCell = new PlayerCell(player, value);
+        var playerCell = new PlayerCell(player);
         if (value)
             queueList.AddFirst(playerCell);
         else
@@ -86,15 +88,15 @@ public class TotalNewControl : MonoBehaviour
     public class PlayerCell
     {
         public readonly GameObject Player;
-        public PlayerCell Previous { get; set; }
         public PlayerCell Next { get; set; }
+        public PlayerCell Previous { get; set; }
 
 
         public PlayerCell(GameObject player)
         {
             Player = player;
-            Previous = null;
             Next = null;
+            Previous = null;
         }
     }
 
@@ -104,17 +106,65 @@ public class TotalNewControl : MonoBehaviour
         public PlayerCell Head { get; set; }
         public PlayerCell Tale { get; set; }
 
-        
-        public void AddFirst(GameObject player)
+        public TabList()
         {
+            Head = Tale = null;
+        }
+
+        public bool CanSwap()
+        {
+            return Head != Tale;
+        }
+        
+        public GameObject TakePlayerToSwap()
+        {
+            var player = Head.Player;
+            MoveFirstToEnd();
+            return player;
+        }
+        
+        public void Add(GameObject player)
+        {
+            if (Head == null || Tale == null)
+            {
+                Head = Tale = new PlayerCell(player);
+                ActivePlayer = Tale;
+                return;
+            }
             var newHead = new PlayerCell(player);
             Head.Previous = newHead;
+            newHead.Next = Head;
             Head = newHead;
         }
 
-        public void RemoveFirst()
+        public void Remove(GameObject player)
         {
+            var current = Head;
+            while (current != null)
+            {
+                if (current.Player == player)
+                {
+                    current.Previous.Next = current.Next;
+                    current.Next.Previous = current.Previous;
+                    break;
+                }
+
+                current = current.Next;
+            }
+        }
+
+        public void MoveFirstToEnd()
+        {
+            if (Head == Tale) return;
+            
+            var newHead = Head.Next;
+            
             Head.Next.Previous = null;
+            Head.Next = null;
+            Tale.Next = Head;
+            Head.Previous = Tale;
+            
+            Head = newHead;
         }
     }
 }
