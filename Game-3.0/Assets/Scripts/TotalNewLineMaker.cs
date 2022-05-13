@@ -24,6 +24,12 @@ public class TotalNewLineMaker : MonoBehaviour
 
     private bool flag;
     private float min;
+    private float offset = 1.8f;
+
+    public  void Flip(bool facingRight)
+    {
+        offset = (!facingRight) ? -1f : 1.8f;
+    }
 
     public void ChangePlayers(GameObject first, GameObject second)
     {
@@ -41,11 +47,11 @@ public class TotalNewLineMaker : MonoBehaviour
     public void Update()
     {
         firstPlayerPosition = firstPlayer.transform.position;
-        firstPlayerPosition.x += 1.8f;
+        firstPlayerPosition.x += offset;
         firstPlayerPosition.y += 1.2f;
 
         secondPlayerPosition = secondPlayer.transform.position;
-        secondPlayerPosition.x += 1.8f;
+        secondPlayerPosition.x += offset;
         secondPlayerPosition.y += 1.2f;
 
         line.positionCount = 2;
