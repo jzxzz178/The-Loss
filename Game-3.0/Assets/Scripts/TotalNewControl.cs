@@ -8,7 +8,7 @@ using UnityEngine;
 public class TotalNewControl : MonoBehaviour
 {
     private SwapSystem swapSystem;
-    private TabList list; 
+    private static TabList tabList; 
 
     private static GameObject[] players;
     private static GameObject[] lines;
@@ -24,9 +24,7 @@ public class TotalNewControl : MonoBehaviour
     {
         swapSystem = new SwapSystem();
         swapSystem.SwapPlayer.Swap.performed += context => Distribute();
-        queueList = new LinkedList<PlayerCell>();
-        list = new TabList();
-        // queue = new Queue<GameObject>();
+        tabList = new TabList();
     }
 
     private void Start()
@@ -36,7 +34,7 @@ public class TotalNewControl : MonoBehaviour
             UpdateDictionary(player, false);
 
         UpdateDictionary(players[index + 1], true);
-        queueList.AddLast(new PlayerCell(players[index + 1], true));
+        tabList.Add(players[index + 1]);
 
         lines = GameObject.FindGameObjectsWithTag("Line");
         Distribute();
@@ -45,16 +43,13 @@ public class TotalNewControl : MonoBehaviour
     public static void UpdateDictionary(GameObject player, bool value)
     {
         linkDictionary[player] = value;
-        var playerCell = new PlayerCell(player);
         if (value)
-            queueList.AddFirst(playerCell);
-        else
-            queueList.Remove(playerCell);
+            tabList.Add(player);
     }
 
     public static bool CheckForConnection(GameObject player) => linkDictionary[player];
 
-    private static void Distribute()
+    private void Distribute()
     {
         for (var j = 0; j < players.Length; j++)
         {
@@ -68,13 +63,10 @@ public class TotalNewControl : MonoBehaviour
         foreach (var line in lines)
         {
             // if (i == index) i++;
-            if (queueList.Last.Value.ActiveFlag)
+            if (tabList.CanSwap())
             {
                 line.GetComponent<TotalNewLineMaker>()
-                    .ChangePlayers(queueList.Last.Value.Player, queueList.First.Value.Player);
-                queueList.First.Value.ActiveFlag = false;
-                queueList.AddLast(queueList.First.Value);
-                queueList.RemoveFirst();
+                    .ChangePlayers(tabList.Tale.Player, tabList.TakePlayerToSwap());
             }
 
             i++;
@@ -100,6 +92,9 @@ public class TotalNewControl : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// В поле Head находится следующий на очередь для свапа игрок, в Tale - активный 
+    /// </summary>
     public class TabList
     {
         public PlayerCell ActivePlayer { get; set; }
@@ -115,7 +110,11 @@ public class TotalNewControl : MonoBehaviour
         {
             return Head != Tale;
         }
-        
+
+        /// <summary>
+        /// Возвращает ссылку на игрока, на который надо поставить линии
+        /// </summary>
+        /// <returns></returns>
         public GameObject TakePlayerToSwap()
         {
             var player = Head.Player;
@@ -153,7 +152,7 @@ public class TotalNewControl : MonoBehaviour
             }
         }
 
-        public void MoveFirstToEnd()
+        private void MoveFirstToEnd()
         {
             if (Head == Tale) return;
             
@@ -163,6 +162,8 @@ public class TotalNewControl : MonoBehaviour
             Head.Next = null;
             Tale.Next = Head;
             Head.Previous = Tale;
+
+            ActivePlayer = Tale;
             
             Head = newHead;
         }
