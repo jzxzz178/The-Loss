@@ -86,13 +86,15 @@ public class TotalNewControl : MonoBehaviour
     public class PlayerCell
     {
         public readonly GameObject Player;
-        public PlayerCell Previous;
-        public PlayerCell Next;
+        public PlayerCell Previous { get; set; }
+        public PlayerCell Next { get; set; }
 
 
         public PlayerCell(GameObject player)
         {
             Player = player;
+            Previous = null;
+            Next = null;
         }
     }
 
@@ -102,9 +104,17 @@ public class TotalNewControl : MonoBehaviour
         public PlayerCell Head { get; set; }
         public PlayerCell Tale { get; set; }
 
+        
         public void AddFirst(GameObject player)
         {
-            var newHead = new PlayerCell(player)
+            var newHead = new PlayerCell(player);
+            Head.Previous = newHead;
+            Head = newHead;
+        }
+
+        public void RemoveFirst()
+        {
+            Head.Next.Previous = null;
         }
     }
 }
