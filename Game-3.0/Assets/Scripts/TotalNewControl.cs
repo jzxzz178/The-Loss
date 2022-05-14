@@ -8,7 +8,7 @@ using UnityEngine;
 public class TotalNewControl : MonoBehaviour
 {
     private SwapSystem swapSystem;
-    private static TabList tabList; 
+    private static TabList tabList;
 
     private static GameObject[] players;
     private static GameObject[] lines;
@@ -43,33 +43,35 @@ public class TotalNewControl : MonoBehaviour
     public static void UpdateDictionary(GameObject player, bool value)
     {
         linkDictionary[player] = value;
-        if (value)
-            tabList.Add(player);
+        tabList.Add(player);
     }
 
     public static bool CheckForConnection(GameObject player) => linkDictionary[player];
 
     private void Distribute()
     {
-        for (var j = 0; j < players.Length; j++)
+        /*for (var j = 0; j < players.Length; j++)
         {
             index = (index + 1) % players.Length;
             if (linkDictionary[players[index]])
                 break;
             if (j == players.Length - 1) return;
-        }
-
+        }*/
+        // if (!tabList.CanSwap()) return;
+        var player = tabList.TakePlayerToSwap();
         var i = 0;
         foreach (var line in lines)
         {
-            // if (i == index) i++;
-            if (tabList.CanSwap())
+            if (players[i] != player)
+                line.GetComponent<TotalNewLineMaker>()
+                    .ChangePlayers(player, players[i]);
+            i++;
+            
+            /*if (tabList.CanSwap())
             {
                 line.GetComponent<TotalNewLineMaker>()
                     .ChangePlayers(tabList.Tale.Player, tabList.TakePlayerToSwap());
-            }
-
-            i++;
+            }*/
         }
     }
 
@@ -93,9 +95,9 @@ public class TotalNewControl : MonoBehaviour
     }
 
     /// <summary>
-    /// В поле Head находится следующий на очередь для свапа игрок, в Tale - активный 
+    /// В поле Head находится следующий на очередь для свапа игрок, в ActivePlayer - активный 
     /// </summary>
-    public class TabList
+    private class TabList
     {
         public PlayerCell ActivePlayer { get; set; }
         public PlayerCell Head { get; set; }
@@ -108,7 +110,15 @@ public class TotalNewControl : MonoBehaviour
 
         public bool CanSwap()
         {
-            return Head != Tale;
+            var current = Head;
+            while (current != null)
+            {
+                if (linkDictionary[current.Player])
+                    return true;
+                current = current.Next;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -117,26 +127,55 @@ public class TotalNewControl : MonoBehaviour
         /// <returns></returns>
         public GameObject TakePlayerToSwap()
         {
-            var player = Head.Player;
-            MoveFirstToEnd();
+            var current = Head;
+            var player = current.Player;
+            while (current != null)
+            {
+                if (linkDictionary[current.Player])
+                {
+                    player = current.Player;
+                    break;
+                }
+
+                current = current.Next;
+            }
+
+            var newCell = SwapElementWithActivePlayer(current);
+            MoveCellToEnd(newCell);
             return player;
         }
-        
+
+        private PlayerCell SwapElementWithActivePlayer(PlayerCell cell)
+        {
+            cell.Previous.Next = ActivePlayer;
+            cell.Next.Previous = ActivePlayer;
+
+            ActivePlayer.Next = cell.Next;
+            ActivePlayer.Previous = cell.Previous;
+
+            var newCell = ActivePlayer;
+
+            ActivePlayer = cell;
+            ActivePlayer.Next = null;
+            ActivePlayer.Previous = null;
+            return newCell;
+        }
+
         public void Add(GameObject player)
         {
             if (Head == null || Tale == null)
             {
-                Head = Tale = new PlayerCell(player);
-                ActivePlayer = Tale;
+                ActivePlayer = new PlayerCell(player);
                 return;
             }
+
             var newHead = new PlayerCell(player);
             Head.Previous = newHead;
             newHead.Next = Head;
             Head = newHead;
         }
 
-        public void Remove(GameObject player)
+        private void Remove(GameObject player)
         {
             var current = Head;
             while (current != null)
@@ -152,20 +191,14 @@ public class TotalNewControl : MonoBehaviour
             }
         }
 
-        private void MoveFirstToEnd()
+        private void MoveCellToEnd(PlayerCell cell)
         {
             if (Head == Tale) return;
-            
-            var newHead = Head.Next;
-            
-            Head.Next.Previous = null;
-            Head.Next = null;
-            Tale.Next = Head;
-            Head.Previous = Tale;
 
-            ActivePlayer = Tale;
-            
-            Head = newHead;
+            Remove(cell.Player);
+            Tale.Next = cell;
+            cell.Previous = Tale;
+            Tale = cell;
         }
     }
 }
