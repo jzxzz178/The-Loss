@@ -38,6 +38,15 @@ public class TotalNewControl : MonoBehaviour
     public static void UpdateDictionary(GameObject player, bool value)
     {
         linkDictionary[player] = value;
+        if (!value) return;
+        
+        var i = 0;
+        foreach (var o in players)
+        {
+            if (o == player)
+                index = i;
+            i++;
+        }
     }
 
     public static bool CheckForConnection(GameObject player) => linkDictionary[player];
