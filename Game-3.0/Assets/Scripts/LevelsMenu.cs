@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
-public class Menu : MonoBehaviour
+public class LevelsMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public GameObject PauseMenuUI;
@@ -19,73 +19,26 @@ public class Menu : MonoBehaviour
     public AudioClip hoverFx;
     public AudioClip clickFx;
     public Animator Slider;
-    public Animator Picture1;
-    public Animator Picture2;
-    public AudioClip GaleryOpen;
-    public int pictureNumber = 0;
     private float volume = 1f;
-    private bool pictureIsAnimated = false;
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         myFx = GetComponent<AudioSource>();
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
-            LevelStartSound();
+           // LevelStartSound();
         }
         //else if (SceneManager.GetActiveScene().buildIndex == 1)
-           // myFx.PlayOneShot(GaleryOpen);
+        // myFx.PlayOneShot(GaleryOpen);
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+
         myFx.volume = volume;
-        if (!GameIsPaused)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && pictureNumber == 1)
-            {
-                PlayLevelTwo();
-            }
-            if (Input.GetKeyDown(KeyCode.Space) && pictureNumber == 0)
-            {
-                PlayLevelOne();
-            }
-            
-
-            if (Input.GetKeyDown(KeyCode.A) && pictureNumber == 1)
-            {
-                HoverSound();
-                pictureNumber = 0;
-                pictureIsAnimated = false;
-                //Debug.Log(pictureNumber);
-            }
-
-            if (Input.GetKeyDown(KeyCode.D) && pictureNumber == 0)
-            {
-                HoverSound();
-                pictureNumber = 1;
-                pictureIsAnimated = false;
-                // Debug.Log(pictureNumber);
-            }
-            if (pictureNumber == 0 && !pictureIsAnimated)
-            {
-                Picture2.enabled = false;
-                Picture1.enabled = true;
-                Picture1.Play("choice1", -1, 0f);
-                pictureIsAnimated = true;
-            }
-            else if (!pictureIsAnimated)
-            {
-                Picture1.enabled = false;
-                Picture2.enabled = true;
-                Picture2.Play("choice2", -1, 0f);
-                pictureIsAnimated = true;
-            }
-            
-        }
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameIsPaused)
@@ -104,7 +57,7 @@ public class Menu : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.S) && MenuIncluded && ButtonIndex + 1 <= 2)
+        if (Input.GetKeyDown(KeyCode.S) && MenuIncluded && ButtonIndex + 1 <= 3)
         {
             HoverSound();
             ButtonIndex = ButtonIndex + 1;
@@ -118,17 +71,17 @@ public class Menu : MonoBehaviour
 
         if (!MenuIncluded && GameIsPaused)
         {
-            pictureIsAnimated = false;
-            if (Input.GetKeyDown(KeyCode.D) && volume  < 1f)
+            
+            if (Input.GetKeyDown(KeyCode.D) && volume < 1f)
             {
                 volume += 0.2f;
             }
 
             if (Input.GetKeyDown(KeyCode.A) && volume > 0f)
             {
-                volume -= 0.2f;  
+                volume -= 0.2f;
             }
-            
+
             if (volume - 0 <= 10e-7)
                 Slider.Play("Volume0", -1, 0.5f);
             else if (volume - 0.2f <= 10e-7)
@@ -143,7 +96,7 @@ public class Menu : MonoBehaviour
                 Slider.Play("Volume5", -1, 0.5f);
         }
 
-        
+
 
         if (Input.GetKeyDown(KeyCode.Space) && MenuIncluded)
         {
@@ -154,9 +107,13 @@ public class Menu : MonoBehaviour
                     Resume();
                     break;
                 case 1:
-                    SettingsPlay();
+                    ClickSound();
+                    ReStart();
                     break;
                 case 2:
+                    SettingsPlay();
+                    break;
+                case 3:
                     QuitGame();
                     break;
             }
@@ -168,14 +125,16 @@ public class Menu : MonoBehaviour
             switch (ButtonIndex)
             {
                 case 0:
-                    Pointer.Play("ContinueChoice", -1, 0.5f);
+                    Pointer.Play("ContinueChoiceGame", -1, 0.5f);
                     break;
                 case 1:
-                    Pointer.Play("SettingsChoice", -1, 0.5f);
-                   // Debug.Log("да");
+                    Pointer.Play("RestartChoiceGame", -1, 0.5f);
                     break;
-                case 2: 
-                    Pointer.Play("ExitChoice", -1, 0.5f);                                      
+                case 2:
+                    Pointer.Play("SettingsChoiceGame", -1, 0.5f);
+                    break;
+                case 3:
+                    Pointer.Play("ExitChoiceGame", -1, 0.5f);
                     break;
             }
         }
@@ -183,7 +142,7 @@ public class Menu : MonoBehaviour
 
     public void Resume()
     {
-        
+
         PauseMenuUI.SetActive(false);
         SettingsMenuUI.SetActive(false);
         Time.timeScale = 1f;
