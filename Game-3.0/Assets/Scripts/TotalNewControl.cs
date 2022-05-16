@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Object = System.Object;
 
 public class TotalNewControl : MonoBehaviour
 {
@@ -16,15 +17,11 @@ public class TotalNewControl : MonoBehaviour
     private static Dictionary<GameObject, bool> linkDictionary = new Dictionary<GameObject, bool>();
     private static int index = -1;
 
-    private static LinkedList<PlayerCell> queueList;
-
-    // private static Queue<GameObject> queue;
-
     private void Awake()
     {
         swapSystem = new SwapSystem();
         swapSystem.SwapPlayer.Swap.performed += context => Distribute();
-        tabList = new TabList();
+        
     }
 
     private void Start()
@@ -34,16 +31,24 @@ public class TotalNewControl : MonoBehaviour
             UpdateDictionary(player, false);
 
         UpdateDictionary(players[index + 1], true);
-        tabList.Add(players[index + 1]);
+
+        tabList = new TabList(GameObject.Find("Player"));
 
         lines = GameObject.FindGameObjectsWithTag("Line");
-        Distribute();
+        
+        var i = 0;
+        foreach (var line in lines)
+        {
+            if (players[i] != tabList.ActivePlayer.Player)
+                line.GetComponent<TotalNewLineMaker>()
+                    .ChangePlayers(tabList.ActivePlayer.Player, players[i]);
+            i++;
+        }
     }
 
     public static void UpdateDictionary(GameObject player, bool value)
     {
         linkDictionary[player] = value;
-        tabList.Add(player);
     }
 
     public static bool CheckForConnection(GameObject player) => linkDictionary[player];
@@ -99,13 +104,19 @@ public class TotalNewControl : MonoBehaviour
     /// </summary>
     private class TabList
     {
-        public PlayerCell ActivePlayer { get; set; }
-        public PlayerCell Head { get; set; }
-        public PlayerCell Tale { get; set; }
+        public PlayerCell ActivePlayer;
+        public PlayerCell Head;
+        public PlayerCell Tale;
 
-        public TabList()
+        public TabList(GameObject activePlayer)
         {
+            ActivePlayer = new PlayerCell(activePlayer);
             Head = Tale = null;
+            foreach (var player in players)
+            {
+                if (player != activePlayer)
+                    Add(player);
+            }
         }
 
         public bool CanSwap()
@@ -161,11 +172,11 @@ public class TotalNewControl : MonoBehaviour
             return newCell;
         }
 
-        public void Add(GameObject player)
+        private void Add(GameObject player)
         {
             if (Head == null || Tale == null)
             {
-                ActivePlayer = new PlayerCell(player);
+                Tale = Head = new PlayerCell(player);
                 return;
             }
 
