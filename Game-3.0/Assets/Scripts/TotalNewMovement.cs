@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,6 +60,7 @@ public class TotalNewMovement : MonoBehaviour
         if (isGrounded) State = States.Move;
         if (!isGrounded || !TotalNewControl.CheckForConnection(player)) return;
         movementX = axis * speed;
+        if (axis != 0) transform.localScale = new Vector3(Math.Abs(transform.localScale.x)*axis, transform.localScale.y, transform.localScale.z);
     }
     
     private void Jump()
