@@ -21,7 +21,6 @@ public class TotalNewControl : MonoBehaviour
     {
         swapSystem = new SwapSystem();
         swapSystem.SwapPlayer.Swap.performed += context => Distribute();
-        
     }
 
     private void Start()
@@ -39,9 +38,10 @@ public class TotalNewControl : MonoBehaviour
         var i = 0;
         foreach (var line in lines)
         {
-            if (players[i] != tabList.ActivePlayer.Player)
-                line.GetComponent<TotalNewLineMaker>()
-                    .ChangePlayers(tabList.ActivePlayer.Player, players[i]);
+            if (players[i] == tabList.ActivePlayer.Player)
+                i++;
+            line.GetComponent<TotalNewLineMaker>()
+                .ChangePlayers(tabList.ActivePlayer.Player, players[i]);
             i++;
         }
     }
@@ -67,10 +67,11 @@ public class TotalNewControl : MonoBehaviour
         var i = 0;
         foreach (var line in lines)
         {
-            if (players[i] != player)
-                line.GetComponent<TotalNewLineMaker>()
-                    .ChangePlayers(player, players[i]);
-            i++;
+            if (players[i] == player)
+                i = (i + 1) % players.Length;
+            line.GetComponent<TotalNewLineMaker>()
+                .ChangePlayers(player, players[i]);
+            i++;    
             
             /*if (tabList.CanSwap())
             {
@@ -158,8 +159,8 @@ public class TotalNewControl : MonoBehaviour
 
         private PlayerCell SwapElementWithActivePlayer(PlayerCell cell)
         {
-            cell.Previous.Next = ActivePlayer;
-            cell.Next.Previous = ActivePlayer;
+            if (cell.Previous != null) cell.Previous.Next = ActivePlayer;
+            if (cell.Next != null) cell.Next.Previous = ActivePlayer;
 
             ActivePlayer.Next = cell.Next;
             ActivePlayer.Previous = cell.Previous;
@@ -186,15 +187,15 @@ public class TotalNewControl : MonoBehaviour
             Head = newHead;
         }
 
-        private void Remove(GameObject player)
+        private void Remove (PlayerCell cell)
         {
             var current = Head;
             while (current != null)
             {
-                if (current.Player == player)
+                if (current == cell)
                 {
-                    current.Previous.Next = current.Next;
-                    current.Next.Previous = current.Previous;
+                    if (current.Previous != null) current.Previous.Next = current.Next;
+                    if (current.Next != null) current.Next.Previous = current.Previous;
                     break;
                 }
 
@@ -206,7 +207,7 @@ public class TotalNewControl : MonoBehaviour
         {
             if (Head == Tale) return;
 
-            Remove(cell.Player);
+            Remove(cell);
             Tale.Next = cell;
             cell.Previous = Tale;
             Tale = cell;
