@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.UI;
 
 public class LevelsMenu : MonoBehaviour
 {
@@ -19,11 +20,12 @@ public class LevelsMenu : MonoBehaviour
     public AudioClip hoverFx;
     public AudioClip clickFx;
     public Animator Slider;
-    private float volume = 1f;
+    private float volume;
 
     // Start is called before the first frame update
     void Start()
     {
+        volume = PlayerPrefs.GetFloat("Volume");
         myFx = GetComponent<AudioSource>();
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
@@ -36,9 +38,7 @@ public class LevelsMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        myFx.volume = volume;
-        
+        myFx.volume = volume;     
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameIsPaused)
@@ -75,11 +75,13 @@ public class LevelsMenu : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D) && volume < 1f)
             {
                 volume += 0.2f;
+                PlayerPrefs.SetFloat("Volume", volume);
             }
 
             if (Input.GetKeyDown(KeyCode.A) && volume > 0f)
             {
                 volume -= 0.2f;
+                PlayerPrefs.SetFloat("Volume", volume);
             }
 
             if (volume - 0 <= 10e-7)

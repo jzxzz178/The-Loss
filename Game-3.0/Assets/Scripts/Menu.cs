@@ -23,12 +23,13 @@ public class Menu : MonoBehaviour
     public Animator Picture2;
     public AudioClip GaleryOpen;
     public int pictureNumber = 0;
-    private float volume = 1f;
+    private float volume;
     private bool pictureIsAnimated = false;
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
+        volume = PlayerPrefs.GetFloat("Volume");
         myFx = GetComponent<AudioSource>();
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
@@ -128,7 +129,9 @@ public class Menu : MonoBehaviour
             {
                 volume -= 0.2f;  
             }
-            
+
+            PlayerPrefs.SetFloat("Volume", volume);
+
             if (volume - 0 <= 10e-7)
                 Slider.Play("Volume0", -1, 0.5f);
             else if (volume - 0.2f <= 10e-7)

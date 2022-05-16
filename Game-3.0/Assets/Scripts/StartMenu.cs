@@ -17,6 +17,8 @@ public class StartMenu : MonoBehaviour
     void Start()
     {
         myFx = GetComponent<AudioSource>();
+        //volume = PlayerPrefs.GetFloat("Volume");
+        //PlayerPrefs.SetFloat("Volume", 1f);
     }
 
     // Update is called once per frame
@@ -40,13 +42,16 @@ public class StartMenu : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D) && volume < 1f)
             {
                 volume += 0.2f;
+               
             }
 
             if (Input.GetKeyDown(KeyCode.A) && volume > 0f)
             {
                 volume -= 0.2f;
+               
             }
 
+            PlayerPrefs.SetFloat("Volume", volume);
             if (volume - 0 <= 10e-7)
                 Slider.Play("Volume0", -1, 0.5f);
             else if (volume - 0.2f <= 10e-7)
