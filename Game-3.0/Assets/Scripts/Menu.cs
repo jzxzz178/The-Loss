@@ -172,7 +172,7 @@ public class Menu : MonoBehaviour
                     break;
                 case 1:
                     Pointer.Play("SettingsChoice", -1, 0.5f);
-                   // Debug.Log("‰‡");
+                   // Debug.Log("–¥–∞");
                     break;
                 case 2: 
                     Pointer.Play("ExitChoice", -1, 0.5f);                                      
