@@ -10,6 +10,7 @@ public class TotalNewControl : MonoBehaviour
 {
     private SwapSystem swapSystem;
     private static TabList tabList;
+    
 
     private static GameObject[] players;
     private static GameObject[] lines;
@@ -26,7 +27,7 @@ public class TotalNewControl : MonoBehaviour
     private void Start()
     {
         players = GameObject.FindGameObjectsWithTag("Player").OrderBy(x => x.name).ToArray();
-        tabList = new TabList(GameObject.Find("Player"));
+        tabList = new TabList(players);
         
         foreach (var player in players)
             UpdateDictionary(player, false);
@@ -37,10 +38,10 @@ public class TotalNewControl : MonoBehaviour
         var i = 0;
         foreach (var line in lines)
         {
-            if (players[i] == tabList.ActivePlayerCell.Player)
+            if (players[i] == tabList.ActivePlayer)
                 i++;
             line.GetComponent<TotalNewLineMaker>()
-                .ChangePlayers(tabList.ActivePlayerCell.Player, players[i]);
+                .ChangePlayers(tabList.ActivePlayer, players[i]);
             i++;
         }
     }
@@ -73,7 +74,73 @@ public class TotalNewControl : MonoBehaviour
 
     private void OnDisable() => swapSystem.Disable();
 
-    public class PlayerCell
+    private class TabList
+    {
+        private readonly List<GameObject> playerArray;
+        public GameObject ActivePlayer;
+
+        public TabList(GameObject[] array)
+        {
+            playerArray = new List<GameObject>();
+            var i = 0;
+            foreach (var o in array)
+            {
+                playerArray.Add(array[i]);
+                i++;
+            }
+
+            ActivePlayer = playerArray[0];
+        }
+
+        public void Add(GameObject player)
+        {
+            if (player != null)
+                playerArray.Insert(0, player);
+        }
+        
+        public bool IsAbleToSwap()
+        {
+            foreach (var o in playerArray)
+            {
+                if (LinkDictionary[o] && o != ActivePlayer)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        public GameObject TakePlayerToSwap()
+        {
+            GameObject player = null;
+            foreach (var o in playerArray)
+            {
+                if (LinkDictionary[o] && o != ActivePlayer)
+                {
+                    player = o;
+                    GetToBottom(player);
+                    ActivePlayer = player;
+                    break;
+                }
+            }
+
+            return player;
+        }
+
+        private void GetToBottom(GameObject player)
+        {
+            foreach (var p in playerArray)
+            {
+                if (player == p)
+                {
+                    playerArray.Remove(p);
+                    playerArray.Insert(playerArray.Count - 1, p);
+                }
+            }
+        }
+    }
+    
+    /*public class PlayerCell
     {
         public readonly GameObject Player;
         public PlayerCell Next { get; set; }
@@ -190,7 +257,7 @@ public class TotalNewControl : MonoBehaviour
             ActivePlayerCell = newActivePlayer;
             ActivePlayerCell.Next = null;
             ActivePlayerCell.Previous = null;
-            MoveCellToEnd(newCell);*/
+            MoveCellToEnd(newCell);#1#
         }
 
         private void Remove (GameObject player)
@@ -229,5 +296,5 @@ public class TotalNewControl : MonoBehaviour
             cell.Next = null;
             tale = cell;
         }
-    }
+    }*/
 }
