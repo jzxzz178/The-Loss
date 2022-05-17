@@ -10,13 +10,12 @@ public class TotalNewControl : MonoBehaviour
 {
     private SwapSystem swapSystem;
     private static TabList tabList;
-    
+
 
     private static GameObject[] players;
     private static GameObject[] lines;
 
     private static readonly Dictionary<GameObject, bool> LinkDictionary = new Dictionary<GameObject, bool>();
-    private static int index = -1;
 
     private void Awake()
     {
@@ -28,13 +27,13 @@ public class TotalNewControl : MonoBehaviour
     {
         players = GameObject.FindGameObjectsWithTag("Player").OrderBy(x => x.name).ToArray();
         tabList = new TabList(players);
-        
+
         foreach (var player in players)
             UpdateDictionary(player, false);
-        
+
         UpdateDictionary(players[0], true);
         lines = GameObject.FindGameObjectsWithTag("Line");
-        
+
         var i = 0;
         foreach (var line in lines)
         {
@@ -48,8 +47,14 @@ public class TotalNewControl : MonoBehaviour
 
     public static void UpdateDictionary(GameObject player, bool value)
     {
-        LinkDictionary[player] = value;
-        if (value) tabList.Add(player);
+        if (LinkDictionary.ContainsKey(player))
+        {
+            if (LinkDictionary[player] == value) return;
+            LinkDictionary[player] = value;
+            if (value) tabList.AddOrGoToUp(player);
+        }
+
+        else LinkDictionary[player] = value;
     }
 
     public static bool CheckForConnection(GameObject player) => LinkDictionary[player];
@@ -65,8 +70,7 @@ public class TotalNewControl : MonoBehaviour
                 i++;
             line.GetComponent<TotalNewLineMaker>()
                 .ChangePlayers(player, players[i]);
-            i++;    
-            
+            i++;
         }
     }
 
@@ -76,225 +80,49 @@ public class TotalNewControl : MonoBehaviour
 
     private class TabList
     {
-        private readonly List<GameObject> playerArray;
+        private readonly List<GameObject> playerTabList;
         public GameObject ActivePlayer;
 
         public TabList(GameObject[] array)
         {
-            playerArray = new List<GameObject>();
-            var i = 0;
-            foreach (var o in array)
+            playerTabList = array.ToList();
+            ActivePlayer = playerTabList[0];
+            playerTabList.Remove(ActivePlayer);
+        }
+
+        public void AddOrGoToUp(GameObject player)
+        {
+            foreach (var o in playerTabList.Where(o => o == player && o != ActivePlayer))
             {
-                playerArray.Add(array[i]);
-                i++;
+                playerTabList.Remove(o);
+                break;
             }
 
-            ActivePlayer = playerArray[0];
-        }
-
-        public void Add(GameObject player)
-        {
-            if (player != null)
-                playerArray.Insert(0, player);
-        }
-        
-        public bool IsAbleToSwap()
-        {
-            foreach (var o in playerArray)
-            {
-                if (LinkDictionary[o] && o != ActivePlayer)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        public GameObject TakePlayerToSwap()
-        {
-            GameObject player = null;
-            foreach (var o in playerArray)
-            {
-                if (LinkDictionary[o] && o != ActivePlayer)
-                {
-                    player = o;
-                    GetToBottom(player);
-                    ActivePlayer = player;
-                    break;
-                }
-            }
-
-            return player;
-        }
-
-        private void GetToBottom(GameObject player)
-        {
-            foreach (var p in playerArray)
-            {
-                if (player == p)
-                {
-                    playerArray.Remove(p);
-                    playerArray.Insert(playerArray.Count - 1, p);
-                }
-            }
-        }
-    }
-    
-    /*public class PlayerCell
-    {
-        public readonly GameObject Player;
-        public PlayerCell Next { get; set; }
-        public PlayerCell Previous { get; set; }
-
-
-        public PlayerCell(GameObject player)
-        {
-            Player = player;
-            Next = null;
-            Previous = null;
-        }
-    }
-
-    /// <summary>
-    /// В поле Head находится следующий на очередь для свапа игрок, в ActivePlayer - активный 
-    /// </summary>
-    private class TabList
-    {
-        public PlayerCell ActivePlayerCell;
-        private PlayerCell head;
-        private PlayerCell tale;
-
-        public TabList(GameObject activePlayer)
-        {
-            ActivePlayerCell = new PlayerCell(activePlayer);
-            head = tale = null;
-            foreach (var player in players)
-            {
-                if (player != activePlayer)
-                    Add(player);
-            }
-        }
-        
-        public void Add(GameObject player)
-        {
-            if (ActivePlayerCell != null)
-                if (player == ActivePlayerCell.Player) 
-                    return;
-            
-            if (head == null || tale == null)
-            {
-                tale = head = new PlayerCell(player);
-                return;
-            }
-
-            Remove(player);
-            var newHead = new PlayerCell(player)
-            {
-                Next = head,
-                Previous = null
-            };
-            
-            head.Previous = newHead;
-            head = newHead;
+            if (player != null && player != ActivePlayer)
+                playerTabList.Insert(0, player);
         }
 
         public bool IsAbleToSwap()
         {
-            var current = head;
-            while (current != null)
-            {
-                if (LinkDictionary[current.Player])
-                    return true;
-                current = current.Next;
-            }
-
-            return false;
+            return playerTabList.Any(o => LinkDictionary[o] && o != ActivePlayer);
         }
 
-        /// <summary>
-        /// Возвращает ссылку на игрока, на который надо поставить линии
-        /// </summary>
-        /// <returns></returns>
         public GameObject TakePlayerToSwap()
         {
-            var current = head;
-            var player = current.Player;
-            while (current != null)
+            foreach (var player in playerTabList.Where(p => LinkDictionary[p] && p != ActivePlayer))
             {
-                if (LinkDictionary[current.Player])
-                {
-                    player = current.Player;
-                    break;
-                }
-
-                current = current.Next;
+                playerTabList.Remove(player);
+                GoToBottom(ActivePlayer);
+                ActivePlayer = player;
+                return player;
             }
 
-            SwapElementWithActivePlayerAndMoveElementToEnd(current);
-            return player;
+            throw new Exception();
         }
 
-        private void SwapElementWithActivePlayerAndMoveElementToEnd(PlayerCell newActivePlayer)
+        private void GoToBottom(GameObject player)
         {
-            Remove(newActivePlayer.Player);
-            newActivePlayer.Next = null;
-            newActivePlayer.Previous = null;
-            
-            tale.Next = ActivePlayerCell;
-            ActivePlayerCell.Previous = tale;
-            tale = ActivePlayerCell;
-
-            ActivePlayerCell = newActivePlayer;
-
-            /*if (newActivePlayer.Previous != null) newActivePlayer.Previous.Next = ActivePlayerCell;
-            if (newActivePlayer.Next != null) newActivePlayer.Next.Previous = ActivePlayerCell;
-
-            ActivePlayerCell.Next = newActivePlayer.Next;
-            ActivePlayerCell.Previous = newActivePlayer.Previous;
-
-            var newCell = ActivePlayerCell;
-
-            ActivePlayerCell = newActivePlayer;
-            ActivePlayerCell.Next = null;
-            ActivePlayerCell.Previous = null;
-            MoveCellToEnd(newCell);#1#
+            playerTabList.Add(player);
         }
-
-        private void Remove (GameObject player)
-        {
-            var current = head;
-            while (current != null)
-            {
-                if (current.Player == player)
-                {
-                    if (current.Previous != null) current.Previous.Next = current.Next;
-                    if (current.Next != null) current.Next.Previous = current.Previous;
-                    if (head == current)
-                    {
-                        head = head.Next;
-                        if (head != null) head.Previous = null;
-                    }
-                    if (tale == current)
-                    {
-                        tale = tale.Previous;
-                        if (tale != null) tale.Next = null;
-                    }
-                    break;
-                }
-
-                current = current.Next;
-            }
-        }
-
-        private void MoveCellToEnd(PlayerCell cell)
-        {
-            if (head == tale) return;
-
-            Remove(cell.Player);
-            tale.Next = cell;
-            cell.Previous = tale;
-            cell.Next = null;
-            tale = cell;
-        }
-    }*/
+    }
 }
