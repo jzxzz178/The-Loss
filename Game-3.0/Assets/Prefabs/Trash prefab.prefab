@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 4587784309507290969}
   - component: {fileID: 1945194389221562815}
   m_Layer: 0
-  m_Name: Trash prehab
+  m_Name: Trash prefab
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
