@@ -41,17 +41,17 @@ public class TotalNewLineMaker : MonoBehaviour
     public void Update()
     {
         firstPlayerPosition = firstPlayer.transform.position;
-        firstPlayerPosition.x += 1.8f;
+        //firstPlayerPosition.x += 1.8f;
         firstPlayerPosition.y += 1.2f;
 
         secondPlayerPosition = secondPlayer.transform.position;
-        secondPlayerPosition.x += 1.8f;
+        //secondPlayerPosition.x += 1.8f;
         secondPlayerPosition.y += 1.2f;
 
         line.positionCount = 2;
 
-        startPoint = new Vector3(firstPlayerPosition.x, firstPlayerPosition.y, 10);
-        endPoint = new Vector3(secondPlayerPosition.x, secondPlayerPosition.y, 10);
+        startPoint = new Vector3(firstPlayerPosition.x, firstPlayerPosition.y, -2);
+        endPoint = new Vector3(secondPlayerPosition.x, secondPlayerPosition.y, -2);
 
         flag = true;
         min = float.MaxValue;
@@ -97,7 +97,7 @@ public class TotalNewLineMaker : MonoBehaviour
             if (sqrt < min)
             {
                 min = sqrt;
-                endPoint = new Vector3(((Vector2) intersectionPoint).x, ((Vector2) intersectionPoint).y, 10);
+                endPoint = new Vector3(((Vector2) intersectionPoint).x, ((Vector2) intersectionPoint).y, -2);
             }
 
             flag = false;
