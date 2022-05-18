@@ -65,7 +65,7 @@ public class StartMenu : MonoBehaviour
             else if (volume - 1f <= 10e-7)
                 Slider.Play("Volume5", -1, 0.5f);
         }
-        else if (Input.GetKeyDown(KeyCode.Space) )
+        else if (Input.GetKeyDown(KeyCode.Return) )
         {
             ReturnToGalery();
         }

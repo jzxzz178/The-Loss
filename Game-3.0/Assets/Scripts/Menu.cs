@@ -46,11 +46,11 @@ public class Menu : MonoBehaviour
         myFx.volume = volume;
         if (!GameIsPaused)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && pictureNumber == 1)
+            if (Input.GetKeyDown(KeyCode.Return) && pictureNumber == 1)
             {
                 PlayLevelTwo();
             }
-            if (Input.GetKeyDown(KeyCode.Space) && pictureNumber == 0)
+            if (Input.GetKeyDown(KeyCode.Return) && pictureNumber == 0)
             {
                 PlayLevelOne();
             }
@@ -148,7 +148,7 @@ public class Menu : MonoBehaviour
 
         
 
-        if (Input.GetKeyDown(KeyCode.Space) && MenuIncluded)
+        if (Input.GetKeyDown(KeyCode.Return) && MenuIncluded)
         {
             switch (ButtonIndex)
             {

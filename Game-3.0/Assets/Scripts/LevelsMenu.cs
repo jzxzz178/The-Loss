@@ -100,7 +100,7 @@ public class LevelsMenu : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && MenuIncluded)
+        if (Input.GetKeyDown(KeyCode.Return) && MenuIncluded)
         {
             switch (ButtonIndex)
             {
