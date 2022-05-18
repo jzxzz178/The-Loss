@@ -15,6 +15,9 @@ public class TotalNewControl : MonoBehaviour
     private static GameObject[] players;
     private static GameObject[] lines;
 
+    public int SpiritCount;
+    private int MaxSpiritCount = 1;
+
     private static readonly Dictionary<GameObject, bool> LinkDictionary = new Dictionary<GameObject, bool>();
 
     private void Awake()
@@ -43,6 +46,18 @@ public class TotalNewControl : MonoBehaviour
                 .ChangePlayers(tabList.ActivePlayer, players[i]);
             i++;
         }
+    }
+
+    public void Update()
+    {
+        if (SpiritCount == MaxSpiritCount) OpenDoor();
+    }
+
+    public void SpiritCounterIncrement() => SpiritCount++;
+
+    private static void OpenDoor()
+    {
+        Debug.Log("OK");
     }
 
     public static void UpdateDictionary(GameObject player, bool value)
