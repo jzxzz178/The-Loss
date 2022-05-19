@@ -35,11 +35,11 @@ public class TotalNewMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!TotalNewControl.CheckForConnection(player))
+        if (!TotalNewControl.CheckForConnection(player) || !isGrounded)
         {
             movementX = 0;
         }
-        Move(Axis);
+        else Move(Axis);
         rigidbody.velocity = new Vector2(movementX, rigidbody.velocity.y);
     }
 
@@ -63,6 +63,7 @@ public class TotalNewMovement : MonoBehaviour
         if (!isGrounded || !TotalNewControl.CheckForConnection(player)) return;
         rigidbody.velocity = new Vector2(movementX, jumpForce);
         isGrounded = false;
+        Axis = 0;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
