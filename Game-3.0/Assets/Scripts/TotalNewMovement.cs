@@ -6,7 +6,6 @@ using UnityEngine;
 public class TotalNewMovement : MonoBehaviour
 {
     private PlayerInputSystem input;
-    private Animator animator;
 
     public float speed = 4;
     public float jumpForce = 7;
@@ -23,16 +22,9 @@ public class TotalNewMovement : MonoBehaviour
 
     public static float Axis;
 
-    private States State
-    {
-        get => (States) animator.GetInteger("state");
-        set => animator.SetInteger("state", (int) value);
-    }
-
     private void Awake()
     {
         input = new PlayerInputSystem();
-        animator = GetComponent<Animator>();
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
         player = gameObject.gameObject;
 
@@ -43,7 +35,6 @@ public class TotalNewMovement : MonoBehaviour
 
     private void Update()
     {
-        if (isGrounded) State = States.Idle;
         if (!TotalNewControl.CheckForConnection(player))
         {
             movementX = 0;
@@ -55,12 +46,10 @@ public class TotalNewMovement : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, layerGrounds);
-        if (!isGrounded) State = States.Jump;
     }
 
     private void Move(float axis)
     {
-        if (isGrounded) State = States.Move;
         if (!isGrounded || !TotalNewControl.CheckForConnection(player)) return;
         movementX = axis * speed;
         Axis = axis;
@@ -84,11 +73,4 @@ public class TotalNewMovement : MonoBehaviour
     private void OnEnable() => input.Enable();
 
     private void OnDisable() => input.Disable();
-}
-
-public enum States
-{
-    Idle,
-    Move,
-    Jump
 }
