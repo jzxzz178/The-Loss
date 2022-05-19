@@ -6,6 +6,7 @@ using UnityEngine;
 public class TotalNewMovement : MonoBehaviour
 {
     private PlayerInputSystem input;
+    private Animator anim;
 
     public float speed = 4;
     public float jumpForce = 7;
@@ -26,6 +27,7 @@ public class TotalNewMovement : MonoBehaviour
     {
         input = new PlayerInputSystem();
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        anim=gameObject.GetComponent<Animator>();
         player = gameObject.gameObject;
 
         input.Player.Move.performed += context => Move(context.ReadValue<float>());
@@ -41,6 +43,7 @@ public class TotalNewMovement : MonoBehaviour
         }
         else if (input.Player.Move.IsPressed()) Move(Axis);
         rigidbody.velocity = new Vector2(movementX, rigidbody.velocity.y);
+        anim.SetBool("run",movementX!=0);
     }
 
     private void FixedUpdate()
