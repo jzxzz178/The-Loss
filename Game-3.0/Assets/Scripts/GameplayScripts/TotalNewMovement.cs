@@ -35,7 +35,7 @@ public class TotalNewMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!TotalNewControl.CheckForConnection(player) || !isGrounded)
+        if (!TotalNewControl.CheckForConnection(player))
         {
             movementX = 0;
         }
