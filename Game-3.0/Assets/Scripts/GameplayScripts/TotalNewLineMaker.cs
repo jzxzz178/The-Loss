@@ -41,11 +41,9 @@ public class TotalNewLineMaker : MonoBehaviour
     public void Update()
     {
         firstPlayerPosition = firstPlayer.transform.position;
-        //firstPlayerPosition.x += 1.8f;
         firstPlayerPosition.y += 1.2f;
 
         secondPlayerPosition = secondPlayer.transform.position;
-        //secondPlayerPosition.x += 1.8f;
         secondPlayerPosition.y += 1.2f;
 
         line.positionCount = 2;
