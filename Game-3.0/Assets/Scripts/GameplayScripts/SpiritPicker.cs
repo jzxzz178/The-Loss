@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class SpiritPicker : MonoBehaviour
 {
-    public int SpiritCount;
-    private int MaxSpiritCount = 1;
+    public static int SpiritCount;
+    private static int MaxSpiritCount = 1;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
