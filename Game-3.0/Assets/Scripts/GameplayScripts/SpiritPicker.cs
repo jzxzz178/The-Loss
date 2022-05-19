@@ -12,5 +12,12 @@ public class SpiritPicker : MonoBehaviour
             Destroy(other.gameObject);
             GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TotalNewControl>().SpiritCounterIncrement();
         }
+
+        if (other.gameObject.CompareTag("Door"))
+        {
+
+            LevelChanger.FadeToLevel();
+
+        }
     }
 }

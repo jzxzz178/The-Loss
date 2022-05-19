@@ -57,7 +57,7 @@ public class TotalNewControl : MonoBehaviour
 
     private static void OpenDoor()
     {
-        Debug.Log("OK");
+       // Debug.Log("OK");
     }
 
     public static void UpdateDictionary(GameObject player, bool value)
