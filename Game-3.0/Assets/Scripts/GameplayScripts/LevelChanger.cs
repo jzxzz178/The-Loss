@@ -17,12 +17,12 @@ public class LevelChanger : MonoBehaviour
     public static void FadeToLevel()
     {
         anim.SetTrigger("fade");
-        Debug.Log("Запуск анимации");
+        // Debug.Log("Запуск анимации");
     }
 
     public void OnFadeComplete()
     {
         SceneManager.LoadScene(levelToLoad);
-        Debug.Log("Go");
+        // Debug.Log("Go");
     }
 }
