@@ -17,6 +17,7 @@ public class TotalNewMovement : MonoBehaviour
 
     private bool isGrounded;
     private float movementX;
+    private bool jump;
 
     private new Rigidbody2D rigidbody;
     private GameObject player;
@@ -44,11 +45,14 @@ public class TotalNewMovement : MonoBehaviour
         else if (input.Player.Move.IsPressed()) Move(Axis);
         rigidbody.velocity = new Vector2(movementX, rigidbody.velocity.y);
         anim.SetBool("run",movementX!=0);
+        
     }
 
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, layerGrounds);
+        anim.SetBool("jump",!isGrounded);
+
     }
 
     private void Move(float axis)
