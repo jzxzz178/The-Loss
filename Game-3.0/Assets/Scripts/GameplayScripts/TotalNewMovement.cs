@@ -57,6 +57,7 @@ public class TotalNewMovement : MonoBehaviour
 
     private void Move(float axis)
     {
+        StartDisappearance.StarAnimation();
         if (!isGrounded || !TotalNewControl.CheckForConnection(player)) return;
         movementX = axis * speed;
         Axis = axis;
