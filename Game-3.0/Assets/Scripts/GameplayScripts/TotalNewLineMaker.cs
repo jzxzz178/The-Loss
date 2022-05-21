@@ -33,8 +33,8 @@ public class TotalNewLineMaker : MonoBehaviour
 
     public void Start()
     {
-        line.startWidth = 0.1f;
-        line.endWidth = 0.1f;
+        line.startWidth = 0.5f;
+        line.endWidth = 0.5f;
         line.positionCount = 0;
     }
 
