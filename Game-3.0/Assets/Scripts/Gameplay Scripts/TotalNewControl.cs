@@ -11,24 +11,19 @@ public class TotalNewControl : MonoBehaviour
     private SwapSystem swapSystem;
     private static TabList tabList;
 
-
     private static GameObject[] players;
     private static GameObject[] lines;
-    
 
     private static readonly Dictionary<GameObject, bool> LinkDictionary = new Dictionary<GameObject, bool>();
 
     private void Awake()
     {
         swapSystem = new SwapSystem();
-        swapSystem.SwapPlayer.Swap.performed += context => Distribute();
-    }
-
-    private void Start()
-    {
+        swapSystem.SwapPlayer.Swap.performed += context => Swap();
+        
         players = GameObject.FindGameObjectsWithTag("Player").OrderBy(x => x.name).ToArray();
         tabList = new TabList(players);
-
+        
         foreach (var player in players)
             UpdateDictionary(player, false);
 
@@ -46,6 +41,11 @@ public class TotalNewControl : MonoBehaviour
         }
     }
 
+    public static GameObject TakeActivePlayer()
+    {
+        return tabList.ActivePlayer;
+    }
+
     public static void UpdateDictionary(GameObject player, bool value)
     {
         if (LinkDictionary.ContainsKey(player))
@@ -60,7 +60,7 @@ public class TotalNewControl : MonoBehaviour
 
     public static bool CheckForConnection(GameObject player) => LinkDictionary[player];
 
-    private static void Distribute()
+    private static void Swap()
     {
         if (!tabList.IsAbleToSwap()) return;
         TabHint.StartAnimation();

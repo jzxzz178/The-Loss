@@ -99,8 +99,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 8300830383443672225}
   m_Bounds:
-    m_Center: {x: 0.021591425, y: -0.028131247, z: 0}
-    m_Extent: {x: 2.670167, y: 3.2009792, z: 0}
+    m_Center: {x: -0.00000023841858, y: 0.0000009536743, z: 0}
+    m_Extent: {x: 2.5550005, y: 3.290001, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &679904290996893349
@@ -577,8 +577,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5867047392688567606}
   m_Bounds:
-    m_Center: {x: 0.049009085, y: 0.01850605, z: 0}
-    m_Extent: {x: 0.71886325, y: 1.6004455, z: 0}
+    m_Center: {x: 0.00000023841858, y: -0.0018298626, z: 0}
+    m_Extent: {x: 0.67000026, y: 1.61766, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &4641066068353428453
@@ -635,7 +635,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5349958102773225445}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.32, y: 0.01, z: 0}
+  m_LocalPosition: {x: 0.423, y: 0.376, z: 0}
   m_LocalScale: {x: 0.0989, y: 0.09501, z: 0.28609}
   m_Children: []
   m_Father: {fileID: 8887090581227883735}
@@ -874,8 +874,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6412034770628003099}
   m_Bounds:
-    m_Center: {x: -0.028884888, y: -0.1084491, z: 1}
-    m_Extent: {x: 0.5281811, y: 0.92346156, z: 0}
+    m_Center: {x: 0.0000005364418, y: 0.0022448897, z: 1}
+    m_Extent: {x: 0.52000004, y: 0.92275524, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &6351814438967185822
@@ -1165,7 +1165,7 @@ Transform:
   m_GameObject: {fileID: 8221785314837173630}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.7194}
   m_Children:
   - {fileID: 6737550573945432241}
   - {fileID: 8836656975412681235}
@@ -1290,10 +1290,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3482025b76a475f459d296cca69586aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 7
+  speed: 3
+  jumpForce: 6
   groundCheck: {fileID: 2177661421718074139}
-  groundRadius: 0.2
+  groundRadius: 0.3
   layerGrounds:
     serializedVersion: 2
     m_Bits: 256

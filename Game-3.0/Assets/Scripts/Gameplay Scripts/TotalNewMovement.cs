@@ -58,9 +58,9 @@ public class TotalNewMovement : MonoBehaviour
     private void Move(float axis)
     {
         StartDisappearance.StartAnimation();
+        Axis = axis;
         if (!isGrounded || !TotalNewControl.CheckForConnection(player)) return;
         movementX = axis * speed;
-        Axis = axis;
         if (axis != 0)
             transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * axis, transform.localScale.y,
                 transform.localScale.z);
