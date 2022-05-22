@@ -8,6 +8,11 @@ public class SpiritPicker : MonoBehaviour
     public static int SpiritCount;
     private static int MaxSpiritCount = 1;
 
+    private void Start()
+    {
+        MaxSpiritCount = GameObject.FindGameObjectsWithTag("Spirit").Length;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Spirit"))
