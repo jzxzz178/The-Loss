@@ -12,6 +12,7 @@ using UnityEngine.Windows.Speech;
 public class TotalNewLineMaker : MonoBehaviour
 {
     public LineRenderer line;
+    private List<ParticleSystem> paricles=new List<ParticleSystem>();
 
     public Vector3 startPoint;
     public Vector3 endPoint;
@@ -36,6 +37,9 @@ public class TotalNewLineMaker : MonoBehaviour
         line.startWidth = 0.5f;
         line.endWidth = 0.5f;
         line.positionCount = 0;
+        for(int i=0;i<gameObject.transform.childCount;i++)
+            paricles.Add(gameObject.transform.GetChild(i).GetComponent<ParticleSystem>());
+
     }
 
     public void Update()
@@ -68,6 +72,16 @@ public class TotalNewLineMaker : MonoBehaviour
         
         line.SetPosition(0, startPoint);
         line.SetPosition(1, endPoint);
+        for (var i=0; i < paricles.Count; i++)
+        {
+            paricles[i].transform.position = line.GetPosition(1);
+        }
+        // if(TotalNewControl.CheckForConnection(secondPlayer))
+        //     foreach (var t in paricles)
+        //         t.Stop();
+        // else
+        //     foreach (var t in paricles)
+        //         t.Play();
     }
 
     private void ChangeEndPoint(Vector3 pos, Vector3 scale)
