@@ -57,7 +57,7 @@ public class TotalNewMovement : MonoBehaviour
 
     private void Move(float axis)
     {
-        StartDisappearance.StartAnimation();
+        MoveHint.StartAnimation();
         Axis = axis;
         if (!isGrounded || !TotalNewControl.CheckForConnection(player)) return;
         movementX = axis * speed;
@@ -69,6 +69,7 @@ public class TotalNewMovement : MonoBehaviour
     private void Jump()
     {
         if (!isGrounded || !TotalNewControl.CheckForConnection(player)) return;
+        SpaceHint.StartAnimation();
         rigidbody.velocity = new Vector2(movementX, jumpForce);
         isGrounded = false;
         //Axis = 0;

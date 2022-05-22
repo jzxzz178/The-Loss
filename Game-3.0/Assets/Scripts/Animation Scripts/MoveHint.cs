@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartDisappearance : MonoBehaviour
+public class MoveHint : MonoBehaviour
 {
     private static Animator anim;
     private static bool flag;
