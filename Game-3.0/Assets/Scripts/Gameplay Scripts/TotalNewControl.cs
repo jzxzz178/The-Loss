@@ -63,6 +63,7 @@ public class TotalNewControl : MonoBehaviour
     private static void Distribute()
     {
         if (!tabList.IsAbleToSwap()) return;
+        TabHint.StartAnimation();
         var player = tabList.TakePlayerToSwap();
         var i = 0;
         foreach (var line in lines)
