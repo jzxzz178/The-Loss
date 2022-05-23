@@ -9,6 +9,7 @@ TagManager:
   - Spirit
   - Door
   - LevelChanger
+  - LightBulb
   layers:
   - Default
   - TransparentFX
