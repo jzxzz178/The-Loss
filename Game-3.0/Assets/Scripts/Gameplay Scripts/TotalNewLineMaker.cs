@@ -11,6 +11,9 @@ using UnityEngine.Windows.Speech;
 [RequireComponent(typeof(LineRenderer))]
 public class TotalNewLineMaker : MonoBehaviour
 {
+    [SerializeField, Range(0f, 1f)] private float lineStartWidth = 0.4f;
+    [SerializeField, Range(0f, 1f)] private float lineEndWidth = 0.4f;
+    
     public LineRenderer line;
     private List<ParticleSystem> paricles=new List<ParticleSystem>();
 
@@ -34,8 +37,8 @@ public class TotalNewLineMaker : MonoBehaviour
 
     public void Start()
     {
-        line.startWidth = 0.5f;
-        line.endWidth = 0.5f;
+        line.startWidth = lineStartWidth;
+        line.endWidth = lineEndWidth;
         line.positionCount = 0;
         for(int i=0;i<gameObject.transform.childCount;i++)
             paricles.Add(gameObject.transform.GetChild(i).GetComponent<ParticleSystem>());

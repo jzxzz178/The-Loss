@@ -4949,6 +4949,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bc1d51d86fd374f9c5762b4a52407f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineStartWidth: 0.7
+  lineEndWidth: 0.3
   line: {fileID: 7242353270852742278}
   startPoint: {x: 0, y: 0, z: 0}
   endPoint: {x: 0, y: 0, z: 0}

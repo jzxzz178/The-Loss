@@ -306,8 +306,8 @@ MonoBehaviour:
   - {fileID: 2110139084940947019}
   - {fileID: 3601165279768199727}
   m_Bounds:
-    m_Center: {x: -0.00000047683716, y: -0.0016998649, z: 0}
-    m_Extent: {x: 0.47499973, y: 0.57743967, z: 0}
+    m_Center: {x: -0.00000047683716, y: -0.0016996264, z: 0}
+    m_Extent: {x: 0.47499973, y: 0.5774394, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &1957165854080766294
@@ -787,7 +787,7 @@ GameObject:
   - component: {fileID: 7918414875200102554}
   m_Layer: 0
   m_Name: "\u0444\u043E\u043D\u0430\u0440\u044C"
-  m_TagString: Untagged
+  m_TagString: LightBulb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -874,7 +874,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6412034770628003099}
   m_Bounds:
-    m_Center: {x: 0.000000059604645, y: 0.0022448897, z: 1}
+    m_Center: {x: 0.000001013279, y: 0.0022448897, z: 1}
     m_Extent: {x: 0.52000004, y: 0.92275524, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 1726044933771019467}
   m_Bounds:
-    m_Center: {x: 0, y: -0.009999156, z: 0}
+    m_Center: {x: 0, y: -0.01000011, z: 0}
     m_Extent: {x: 1.1150002, y: 1.3600004, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
