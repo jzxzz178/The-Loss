@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
 
     private void FindPlayer(bool playerIsLeft)
     {
-        activePlayer = TotalNewControl.TakeActivePlayer()?.transform;
+        activePlayer = Control.TakeActivePlayer()?.transform;
         if (activePlayer == null) return;
         lastX = Mathf.RoundToInt(activePlayer.position.x);
         if (playerIsLeft)
@@ -43,7 +43,7 @@ public class CameraController : MonoBehaviour
 
     public void Update()
     {
-        activePlayer = TotalNewControl.TakeActivePlayer().transform;
+        activePlayer = Control.TakeActivePlayer().transform;
         if (activePlayer != null && activePlayer)
         {
             var currentX = Mathf.RoundToInt(activePlayer.position.x);

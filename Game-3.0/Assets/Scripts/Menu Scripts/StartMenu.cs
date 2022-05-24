@@ -39,13 +39,13 @@ public class StartMenu : MonoBehaviour
 
         if (GameIsPaused)
         {
-            if (Input.GetKeyDown(KeyCode.D) && volume < 1f)
+            if (Input.GetKeyDown(KeyCode.RightArrow) && volume < 1f)
             {
                 volume += 0.2f;
                
             }
 
-            if (Input.GetKeyDown(KeyCode.A) && volume > 0f)
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && volume > 0f)
             {
                 volume -= 0.2f;
                

@@ -25,7 +25,7 @@ public class LightScript : MonoBehaviour
     void Update()
     {
         if (lightBulb == null) return;
-        if (!TotalNewControl.CheckForConnection(player))
+        if (!Control.CheckForConnection(player))
         {
             lightBulb.intensity = 0f;
         }

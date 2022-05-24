@@ -57,13 +57,13 @@ public class LevelsMenu : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.S) && MenuIncluded && ButtonIndex + 1 <= 3)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && MenuIncluded && ButtonIndex + 1 <= 3)
         {
             HoverSound();
             ButtonIndex = ButtonIndex + 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && MenuIncluded && ButtonIndex - 1 >= 0)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && MenuIncluded && ButtonIndex - 1 >= 0)
         {
             HoverSound();
             ButtonIndex = ButtonIndex - 1;
@@ -72,13 +72,13 @@ public class LevelsMenu : MonoBehaviour
         if (!MenuIncluded && GameIsPaused)
         {
             
-            if (Input.GetKeyDown(KeyCode.D) && volume < 1f)
+            if (Input.GetKeyDown(KeyCode.RightArrow) && volume < 1f)
             {
                 volume += 0.2f;
                 PlayerPrefs.SetFloat("Volume", volume);
             }
 
-            if (Input.GetKeyDown(KeyCode.A) && volume > 0f)
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && volume > 0f)
             {
                 volume -= 0.2f;
                 PlayerPrefs.SetFloat("Volume", volume);

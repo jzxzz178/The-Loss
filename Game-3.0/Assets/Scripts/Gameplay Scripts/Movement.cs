@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Movement : MonoBehaviour
 {
     private PlayerInputSystem input;
+    private Animator anim;
 
     public float speed = 4;
     public float jumpForce = 7;
@@ -13,85 +14,72 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundRadius;
     public LayerMask layerGrounds;
-    
+
     private bool isGrounded;
     private float movementX;
+    private bool jump;
 
     private new Rigidbody2D rigidbody;
+    private GameObject player;
 
-    public static readonly Dictionary<string, bool> ConnectionIsTrue = new Dictionary<string, bool>
-        {{"Square", false}, {"Square1", false}, {"Square2", false}};
+    public static float Axis;
 
     private void Awake()
     {
         input = new PlayerInputSystem();
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
+        anim=gameObject.GetComponent<Animator>();
+        player = gameObject.gameObject;
+
         input.Player.Move.performed += context => Move(context.ReadValue<float>());
         input.Player.Move.canceled += context => Move(0);
         input.Player.Jump.performed += context => Jump();
-        // input.Player.SwapPlayer.performed += context => SwapPlayer();
     }
 
     private void Update()
     {
-        if (ConnectionIsTrue[rigidbody.name])
+        if (!Control.CheckForConnection(player))
         {
-            rigidbody.velocity = new Vector2(movementX, rigidbody.velocity.y);
+            movementX = 0;
         }
+        else if (input.Player.Move.IsPressed()) Move(Axis);
+        rigidbody.velocity = new Vector2(movementX, rigidbody.velocity.y);
+        anim.SetBool("run",movementX!=0);
+        
     }
 
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, layerGrounds);
+        anim.SetBool("jump",!isGrounded);
+
     }
 
     private void Move(float axis)
     {
-        if (!isGrounded) return;
+        MoveHint.StartAnimation();
+        Axis = axis;
+        if (!isGrounded || !Control.CheckForConnection(player)) return;
         movementX = axis * speed;
+        if (axis != 0)
+            transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * axis, transform.localScale.y,
+                transform.localScale.z);
     }
 
     private void Jump()
     {
-        if (!(isGrounded && ConnectionIsTrue[rigidbody.name])) return;
+        if (!isGrounded || !Control.CheckForConnection(player)) return;
+        SpaceHint.StartAnimation();
         rigidbody.velocity = new Vector2(movementX, jumpForce);
         isGrounded = false;
+        //Axis = 0;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
-    { 
-        // Debug.Log("есть контакт");
+    {
         movementX = 0;
     }
 
-    private void SwapPlayer()
-    {
-        var squares = Control.Squares;
-        if (ConnectionIsTrue[squares[2]])
-        {
-            var temp = squares[1];
-            squares[1] = squares[2];
-            squares[2] = squares[3];
-            squares[3] = temp;
-        }
-
-        else if (ConnectionIsTrue[squares[3]])
-        {
-            var temp = squares[1];
-            squares[1] = squares[3];
-            squares[3] = squares[2];
-            squares[2] = temp;
-        }
-
-        else
-        {
-            var temp = squares[2];
-            squares[2] = squares[1];
-            squares[1] = squares[3];
-            squares[3] = temp;
-        }
-    }
-    
     private void OnEnable() => input.Enable();
 
     private void OnDisable() => input.Disable();

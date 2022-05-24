@@ -25,6 +25,7 @@ public class SpiritPicker : MonoBehaviour
         if (other.gameObject.CompareTag("Door") && SpiritCount == MaxSpiritCount)
         {
             LevelChanger.FadeToLevel();
+            // GateAnim
         }
     }
 }

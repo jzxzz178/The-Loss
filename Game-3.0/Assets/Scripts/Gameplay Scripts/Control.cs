@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = System.Object;
 
-public class TotalNewControl : MonoBehaviour
+public class Control : MonoBehaviour
 {
     private SwapSystem swapSystem;
     private static TabList tabList;
@@ -35,7 +35,7 @@ public class TotalNewControl : MonoBehaviour
         {
             if (players[i] == tabList.ActivePlayer)
                 i++;
-            line.GetComponent<TotalNewLineMaker>()
+            line.GetComponent<LineMaker>()
                 .ChangePlayers(tabList.ActivePlayer, players[i]);
             i++;
         }
@@ -70,7 +70,7 @@ public class TotalNewControl : MonoBehaviour
         {
             if (players[i] == player)
                 i++;
-            line.GetComponent<TotalNewLineMaker>()
+            line.GetComponent<LineMaker>()
                 .ChangePlayers(player, players[i]);
             i++;
         }

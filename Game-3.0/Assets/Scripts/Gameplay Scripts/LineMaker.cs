@@ -2,58 +2,89 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.Windows.Speech;
 
 
 [RequireComponent(typeof(LineRenderer))]
-public class LineMakerForPrefabs : MonoBehaviour
+public class LineMaker : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public Color c1 = Color.yellow;
-    public Color c2 = Color.red;
-    public Color c3 = Color.blue;
-    public Color c4 = Color.white;
+    [SerializeField, Range(0f, 1f)] private float lineStartWidth = 0.4f;
+    [SerializeField, Range(0f, 1f)] private float lineEndWidth = 0.4f;
     
     public LineRenderer line;
+    private List<ParticleSystem> paricles=new List<ParticleSystem>();
+
+    public Vector3 startPoint;
     public Vector3 endPoint;
-    public Vector3 square;
-    public Vector3 square1;
-    
+
+    public Vector3 firstPlayerPosition;
+    public Vector3 secondPlayerPosition;
+
+    private GameObject firstPlayer;
+    private GameObject secondPlayer;
+
     private bool flag;
     private float min;
 
-    public void Start()
+    public void ChangePlayers(GameObject first, GameObject second)
     {
-        line.startWidth = 0.1f;
-        line.endWidth = 0.1f;
-        line.positionCount = 0;
-        line.SetColors(c4, c4);
+        firstPlayer = first;
+        secondPlayer = second;
     }
 
-    // Update is called once per frame
+    public void Start()
+    {
+        line.startWidth = lineStartWidth;
+        line.endWidth = lineEndWidth;
+        line.positionCount = 0;
+        for(int i=0;i<gameObject.transform.childCount;i++)
+            paricles.Add(gameObject.transform.GetChild(i).GetComponent<ParticleSystem>());
+
+    }
+
     public void Update()
     {
-        square1 = Control.start;
-        square = Control.endForLine1;
-        var wall1pos = GameObject.Find("Wall1").transform.position;
-        var wall1scale = GameObject.Find("Wall1").transform.localScale;
-        var wall2pos = GameObject.Find("Wall2").transform.position;
-        var wall2scale = GameObject.Find("Wall2").transform.localScale;
+        firstPlayerPosition = firstPlayer.transform.position;
+        firstPlayerPosition.y += 1.2f;
+
+        secondPlayerPosition = secondPlayer.transform.position;
+        secondPlayerPosition.y += 1.2f;
+
         line.positionCount = 2;
-        var startPoint = new Vector3(square1.x, square1.y, 10);
-        endPoint = new Vector3(square.x, square.y, 10);
-        flag = false;
-        min = 100000000000000000000f;
-        ChangeEndPoint(wall1pos, wall1scale);
-        ChangeEndPoint(wall2pos, wall2scale);
-        if (flag)
-            PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = false;
-        else
-            PlayerMovement.ConnectionIsTrue[Control.endForLine1Name] = true;
+
+        startPoint = new Vector3(firstPlayerPosition.x, firstPlayerPosition.y, -2);
+        endPoint = new Vector3(secondPlayerPosition.x, secondPlayerPosition.y, -2);
+
+        flag = true;
+        min = float.MaxValue;
+
+        var walls = GameObject.FindGameObjectsWithTag("Wall");
+        foreach (var wall in walls)
+        {
+            var wallPos = wall.transform.position;
+            var wallScale = wall.transform.localScale;
+
+            ChangeEndPoint(wallPos, wallScale);
+        }
+
+        
+        Control.UpdateDictionary(secondPlayer, flag);
+        
         line.SetPosition(0, startPoint);
         line.SetPosition(1, endPoint);
+        for (var i=0; i < paricles.Count; i++)
+        {
+            paricles[i].transform.position = line.GetPosition(1);
+        }
+        // if(TotalNewControl.CheckForConnection(secondPlayer))
+        //     foreach (var t in paricles)
+        //         t.Stop();
+        // else
+        //     foreach (var t in paricles)
+        //         t.Play();
     }
 
     private void ChangeEndPoint(Vector3 pos, Vector3 scale)
@@ -72,18 +103,19 @@ public class LineMakerForPrefabs : MonoBehaviour
             var p2 = points[i + 1];
 
             Vector2? intersectionPoint =
-                FindIntersectionPoint(square.x, square.y, square1.x, square1.y, p1.x, p1.y, p2.x, p2.y);
+                FindIntersectionPoint(secondPlayerPosition.x, secondPlayerPosition.y, firstPlayerPosition.x,
+                    firstPlayerPosition.y, p1.x, p1.y, p2.x, p2.y);
             if (intersectionPoint == null) continue;
-            var dx = ((Vector2) intersectionPoint).x - square1.x;
-            var dy = ((Vector2) intersectionPoint).y - square1.y;
+            var dx = ((Vector2) intersectionPoint).x - firstPlayerPosition.x;
+            var dy = ((Vector2) intersectionPoint).y - firstPlayerPosition.y;
             var sqrt = (float) Math.Sqrt(dx * dx + dy * dy);
             if (sqrt < min)
             {
                 min = sqrt;
-                endPoint = new Vector3(((Vector2) intersectionPoint).x, ((Vector2) intersectionPoint).y, 10);
+                endPoint = new Vector3(((Vector2) intersectionPoint).x, ((Vector2) intersectionPoint).y, -2);
             }
 
-            flag = true;
+            flag = false;
         }
     }
 
@@ -136,6 +168,7 @@ public class LineMakerForPrefabs : MonoBehaviour
             if (x1 <= x && x2 >= x && x3 <= x && x4 >= x)
                 return new Vector2(x, y);
         }
+
         return null;
     }
 }
