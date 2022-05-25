@@ -13,9 +13,9 @@ public class LineMaker : MonoBehaviour
 {
     [SerializeField, Range(0f, 1f)] private float lineStartWidth = 0.4f;
     [SerializeField, Range(0f, 1f)] private float lineEndWidth = 0.4f;
-    
+
     public LineRenderer line;
-    private List<ParticleSystem> paricles=new List<ParticleSystem>();
+    private readonly List<ParticleSystem> particles = new List<ParticleSystem>();
 
     public Vector3 startPoint;
     public Vector3 endPoint;
@@ -40,9 +40,8 @@ public class LineMaker : MonoBehaviour
         line.startWidth = lineStartWidth;
         line.endWidth = lineEndWidth;
         line.positionCount = 0;
-        for(int i=0;i<gameObject.transform.childCount;i++)
-            paricles.Add(gameObject.transform.GetChild(i).GetComponent<ParticleSystem>());
-
+        for (int i = 0; i < gameObject.transform.childCount; i++)
+            particles.Add(gameObject.transform.GetChild(i).GetComponent<ParticleSystem>());
     }
 
     public void Update()
@@ -70,14 +69,14 @@ public class LineMaker : MonoBehaviour
             ChangeEndPoint(wallPos, wallScale);
         }
 
-        
+
         Control.UpdateDictionary(secondPlayer, flag);
-        
+
         line.SetPosition(0, startPoint);
         line.SetPosition(1, endPoint);
-        for (var i=0; i < paricles.Count; i++)
+        foreach (var t in particles)
         {
-            paricles[i].transform.position = line.GetPosition(1);
+            t.transform.position = line.GetPosition(1);
         }
         // if(TotalNewControl.CheckForConnection(secondPlayer))
         //     foreach (var t in paricles)
@@ -99,12 +98,12 @@ public class LineMaker : MonoBehaviour
         };
         for (var i = 0; i < points.Count - 1; i++)
         {
-            var p1 = points[i];
-            var p2 = points[i + 1];
+            var point1 = points[i];
+            var point2 = points[i + 1];
 
             Vector2? intersectionPoint =
                 FindIntersectionPoint(secondPlayerPosition.x, secondPlayerPosition.y, firstPlayerPosition.x,
-                    firstPlayerPosition.y, p1.x, p1.y, p2.x, p2.y);
+                    firstPlayerPosition.y, point1.x, point1.y, point2.x, point2.y);
             if (intersectionPoint == null) continue;
             var dx = ((Vector2) intersectionPoint).x - firstPlayerPosition.x;
             var dy = ((Vector2) intersectionPoint).y - firstPlayerPosition.y;
@@ -119,53 +118,57 @@ public class LineMaker : MonoBehaviour
         }
     }
 
-    private Vector2? FindIntersectionPoint(float x1, float y1, float x2, float y2, float x3, float y3, float x4,
-        float y4)
+    private Vector2? FindIntersectionPoint(float sndPlrPosX, float sndPlrPosY, float fstPlrPosX, float fstPlrPosY,
+        float point1X, float point1Y, float point2X,
+        float point2Y)
     {
-        if (x1 > x2)
+        if (sndPlrPosX > fstPlrPosX)
         {
-            (x1, x2) = (x2, x1);
-            (y1, y2) = (y2, y1);
+            (sndPlrPosX, fstPlrPosX) = (fstPlrPosX, sndPlrPosX);
+            (sndPlrPosY, fstPlrPosY) = (fstPlrPosY, sndPlrPosY);
         }
 
-        if (x3 > x4)
+        if (point1X > point2X)
         {
-            (x3, x4) = (x4, x3);
-            (y3, y4) = (y4, y3);
+            (point1X, point2X) = (point2X, point1X);
+            (point1Y, point2Y) = (point2Y, point1Y);
         }
 
         var x = 0f;
         var y = 0f;
-        if (Math.Abs(x4 - x3) < 10e-7 && Math.Abs(x1 - x2) < 10e-7)
+        if (Math.Abs(point2X - point1X) < 10e-7 && Math.Abs(sndPlrPosX - fstPlrPosX) < 10e-7)
             return null;
-        if (Math.Abs(x4 - x3) < 10e-7)
+        if (Math.Abs(point2X - point1X) < 10e-7)
         {
-            float k1 = (y2 - y1) / (x2 - x1);
-            var b1 = y1 - k1 * x1;
-            x = x3;
+            var k1 = (fstPlrPosY - sndPlrPosY) / (fstPlrPosX - sndPlrPosX);
+            var b1 = sndPlrPosY - k1 * sndPlrPosX;
+            x = point1X;
             y = k1 * x + b1;
-            if (Math.Min(y1, y2) <= y && Math.Max(y1, y2) >= y && Math.Min(y3, y4) <= y && Math.Max(y3, y4) >= y)
-                return new Vector2(x, y);
+            if (Math.Min(sndPlrPosY, fstPlrPosY) <= y && Math.Max(sndPlrPosY, fstPlrPosY) >= y &&
+                Math.Min(point1Y, point2Y) <= y && Math.Max(point1Y, point2Y) >= y)
+                if (fstPlrPosX <= x && x <= sndPlrPosX || sndPlrPosX <= x && x <= fstPlrPosX)
+                    return new Vector2(x, y);
         }
-        else if (Math.Abs(x1 - x2) < 10e-7)
+        else if (Math.Abs(sndPlrPosX - fstPlrPosX) < 10e-7)
         {
-            float k2 = (y4 - y3) / (x4 - x3);
-            var b2 = y3 - k2 * x3;
-            x = x1;
+            var k2 = (point2Y - point1Y) / (point2X - point1X);
+            var b2 = point1Y - k2 * point1X;
+            x = sndPlrPosX;
             y = k2 * x + b2;
-            if (Math.Min(y1, y2) <= y && Math.Max(y1, y2) >= y && Math.Min(y3, y4) <= y && Math.Max(y3, y4) >= y)
+            if (Math.Min(sndPlrPosY, fstPlrPosY) <= y && Math.Max(sndPlrPosY, fstPlrPosY) >= y &&
+                Math.Min(point1Y, point2Y) <= y && Math.Max(point1Y, point2Y) >= y)
                 return new Vector2(x, y);
         }
         else
         {
-            var k1 = (y2 - y1) / (x2 - x1);
-            var k2 = (y4 - y3) / (x4 - x3);
+            var k1 = (fstPlrPosY - sndPlrPosY) / (fstPlrPosX - sndPlrPosX);
+            var k2 = (point2Y - point1Y) / (point2X - point1X);
             if ((float) Math.Abs(k1 - k2) <= 10e-7f) return null;
-            var b1 = y1 - k1 * x1;
-            var b2 = y3 - k2 * x3;
+            var b1 = sndPlrPosY - k1 * sndPlrPosX;
+            var b2 = point1Y - k2 * point1X;
             x = (b2 - b1) / (k1 - k2);
             y = k1 * x + b1;
-            if (x1 <= x && x2 >= x && x3 <= x && x4 >= x)
+            if (sndPlrPosX <= x && fstPlrPosX >= x && point1X <= x && point2X >= x)
                 return new Vector2(x, y);
         }
 
