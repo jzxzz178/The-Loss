@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -57,9 +59,9 @@ public class Movement : MonoBehaviour
 
     private void Move(float axis)
     {
-        MoveHint.StartAnimation();
+        if (SceneManager.GetActiveScene().name == "FirstScene") MoveHint.StartAnimation();
         Axis = axis;
-        if (!isGrounded || !Control.CheckForConnection(player)) return;
+        if (!Control.CheckForConnection(player)) return;
         movementX = axis * speed;
         if (axis != 0)
             transform.localScale = new Vector3(Math.Abs(transform.localScale.x) * axis, transform.localScale.y,
@@ -69,10 +71,9 @@ public class Movement : MonoBehaviour
     private void Jump()
     {
         if (!isGrounded || !Control.CheckForConnection(player)) return;
-        SpaceHint.StartAnimation();
+        if (SceneManager.GetActiveScene().name == "FirstScene") SpaceHint.StartAnimation();
         rigidbody.velocity = new Vector2(movementX, jumpForce);
         isGrounded = false;
-        //Axis = 0;
     }
 
     private void OnCollisionEnter2D(Collision2D other)

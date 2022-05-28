@@ -10,6 +10,7 @@ TagManager:
   - Door
   - LevelChanger
   - LightBulb
+  - Platform
   layers:
   - Default
   - TransparentFX

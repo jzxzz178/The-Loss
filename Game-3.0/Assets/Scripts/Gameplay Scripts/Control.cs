@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Object = System.Object;
 
 public class Control : MonoBehaviour
@@ -63,7 +64,7 @@ public class Control : MonoBehaviour
     private static void Swap()
     {
         if (!tabList.IsAbleToSwap()) return;
-        TabHint.StartAnimation();
+        if (SceneManager.GetActiveScene().name == "FirstScene") TabHint.StartAnimation();
         var player = tabList.TakePlayerToSwap();
         var i = 0;
         foreach (var line in lines)
