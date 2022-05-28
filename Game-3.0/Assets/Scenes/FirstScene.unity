@@ -280,8 +280,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90603153}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.684965, y: -1.3524165, z: 28.03755}
-  m_LocalScale: {x: 1.0234442, y: 0.9280195, z: 1.0087168}
+  m_LocalPosition: {x: -21.6518, y: -3.0809, z: 28.03755}
+  m_LocalScale: {x: 2.809694, y: 1.1868328, z: 1.0087168}
   m_Children: []
   m_Father: {fileID: 104088515}
   m_RootOrder: 1
@@ -396,8 +396,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112110099}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.487154, y: 0.47359967, z: 27.346104}
-  m_LocalScale: {x: 0.8299, y: 0.8299, z: 0.8299}
+  m_LocalPosition: {x: 15.6, y: 0.5229, z: 27.346104}
+  m_LocalScale: {x: 0.8299, y: 0.84479964, z: 0.8299}
   m_Children: []
   m_Father: {fileID: 1183510929}
   m_RootOrder: 0
@@ -1518,8 +1518,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593355778}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 24.771835, y: -1.3568165, z: 28.03755}
-  m_LocalScale: {x: 1.1875, y: 0.9238, z: 1}
+  m_LocalPosition: {x: 29.3552, y: -3.8691, z: 28.03755}
+  m_LocalScale: {x: 2.2150815, y: 1.287243, z: 1}
   m_Children: []
   m_Father: {fileID: 104088515}
   m_RootOrder: 0
@@ -3826,8 +3826,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552537510}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071222, w: 0.70709133}
-  m_LocalPosition: {x: 6.1093, y: -9.8048, z: 28.03755}
-  m_LocalScale: {x: 0.4244318, y: 3.3811042, z: 1}
+  m_LocalPosition: {x: 2.6347, y: -11.358, z: 28.03755}
+  m_LocalScale: {x: 0.7726781, y: 5.086242, z: 1}
   m_Children: []
   m_Father: {fileID: 104088515}
   m_RootOrder: 2
@@ -3970,7 +3970,7 @@ GameObject:
   - component: {fileID: 1611703976}
   - component: {fileID: 1611703975}
   m_Layer: 0
-  m_Name: gatesf
+  m_Name: gates
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4210,7 +4210,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620041587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7703, y: 3.1103, z: -10}
+  m_LocalPosition: {x: 0.28, y: 2.12, z: -10}
   m_LocalScale: {x: 2.2503126, y: 2.2503126, z: 2.2503126}
   m_Children:
   - {fileID: 1445573455}
