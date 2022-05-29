@@ -11,6 +11,7 @@ TagManager:
   - LevelChanger
   - LightBulb
   - Platform
+  - Button
   layers:
   - Default
   - TransparentFX
