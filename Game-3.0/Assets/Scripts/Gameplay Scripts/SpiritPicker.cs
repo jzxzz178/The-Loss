@@ -15,7 +15,7 @@ public class SpiritPicker : MonoBehaviour
         maxSpiritCount = GameObject.FindGameObjectsWithTag("Spirit").Length;
         spiritCount = 0;
         
-        anim = GameObject.FindWithTag("Clouds").GetComponent<Animator>();
+        anim = GameObject.FindWithTag("Gate's property").GetComponent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -13,6 +13,7 @@ TagManager:
   - Platform
   - Button
   - Clouds
+  - Gate's property
   layers:
   - Default
   - TransparentFX

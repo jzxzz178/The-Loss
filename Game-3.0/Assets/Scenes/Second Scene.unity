@@ -735,6 +735,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7788032900983094196, guid: a5edb3d28b988a04890bd45e8636bad6, type: 3}
+      propertyPath: m_TagString
+      value: Gate's property
+      objectReference: {fileID: 0}
     - target: {fileID: 7788032901784367664, guid: a5edb3d28b988a04890bd45e8636bad6, type: 3}
       propertyPath: m_Name
       value: Gates
@@ -6812,7 +6816,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.27, y: 2.51}
+    oldSize: {x: 11.24, y: 1.71}
     newSize: {x: 10.27, y: 2.51}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
