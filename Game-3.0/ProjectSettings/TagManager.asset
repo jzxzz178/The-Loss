@@ -12,6 +12,7 @@ TagManager:
   - LightBulb
   - Platform
   - Button
+  - Clouds
   layers:
   - Default
   - TransparentFX

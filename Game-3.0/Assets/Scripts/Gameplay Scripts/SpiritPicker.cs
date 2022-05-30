@@ -5,12 +5,17 @@ using UnityEngine;
 
 public class SpiritPicker : MonoBehaviour
 {
-    public static int SpiritCount;
-    private static int MaxSpiritCount = 1;
+    private static int spiritCount;
+    private static int maxSpiritCount;
+    
+    private static Animator anim;
 
     private void Start()
     {
-        MaxSpiritCount = GameObject.FindGameObjectsWithTag("Spirit").Length;
+        maxSpiritCount = GameObject.FindGameObjectsWithTag("Spirit").Length;
+        spiritCount = 0;
+        
+        anim = GameObject.FindWithTag("Clouds").GetComponent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -18,14 +23,16 @@ public class SpiritPicker : MonoBehaviour
         if (other.gameObject.CompareTag("Spirit"))
         {
             Destroy(other.gameObject);
-            // GameObject.FindGameObjectWithTag("MainCamera").GetComponent<TotalNewControl>().SpiritCounterIncrement();
-            SpiritCount++;
+            spiritCount++;
+            if (spiritCount == maxSpiritCount)
+            {
+                anim.SetTrigger("openDoors");
+            }
         }
 
-        if (other.gameObject.CompareTag("Door") && SpiritCount == MaxSpiritCount)
+        if (other.gameObject.CompareTag("Door") && spiritCount == maxSpiritCount)
         {
             LevelChanger.FadeToLevel();
-            // GateAnim
         }
     }
 }
