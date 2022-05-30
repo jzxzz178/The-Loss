@@ -15,12 +15,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Galery.unity
     guid: f45c341382208fb44b74c45d89462e6d
   - enabled: 1
-    path: Assets/Scenes/FirstScene.unity
+    path: Assets/Scenes/First Scene.unity
     guid: c1316f2365236b34a913491e0df481bf
   - enabled: 0
     path: Assets/Scenes/SecondScene.unity
     guid: 8c28eab498b3f5746b3ffee7eff3bf1b
   - enabled: 1
-    path: Assets/Scenes/SecondScene 1.unity
+    path: Assets/Scenes/Second Scene.unity
     guid: 72ac1a4fd31b9c84e9d9667a27e4dba2
   m_configObjects: {}
