@@ -13,7 +13,7 @@ public class PlayerLevelSelect : MonoBehaviour
         if (other.gameObject.CompareTag("Picture1"))
         {
             availableToSwitchLevel = true;
-            LevelChanger.ChangeLevelToLoad(2);
+            LevelChanger.ChangeLevelToLoad(1);
             EnterHint.StartAppearance();
         }
 
@@ -21,14 +21,14 @@ public class PlayerLevelSelect : MonoBehaviour
         {
             EnterHint.StartAppearance();
             availableToSwitchLevel = true;
-            LevelChanger.ChangeLevelToLoad(3);
+            LevelChanger.ChangeLevelToLoad(2);
         }
 
         if (other.gameObject.CompareTag("Picture3"))
         {
             EnterHint.StartAppearance();
             availableToSwitchLevel = true;
-            LevelChanger.ChangeLevelToLoad(4);
+            LevelChanger.ChangeLevelToLoad(3);
         }
     }
 

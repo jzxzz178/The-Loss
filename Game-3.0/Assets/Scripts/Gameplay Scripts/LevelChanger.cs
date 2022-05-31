@@ -7,7 +7,7 @@ using UnityEngine;
 public class LevelChanger : MonoBehaviour
 {
     private static Animator anim;
-    private static int levelToLoad = 3;
+    private static int levelToLoad = 4;
 
     public static void ChangeLevelToLoad(int lvl)
     {
@@ -27,7 +27,10 @@ public class LevelChanger : MonoBehaviour
 
     public void OnFadeComplete()
     {
+        if (SceneManager.GetActiveScene().name != "Gallery") levelToLoad = 4;
         SceneManager.LoadScene(levelToLoad);
         Debug.Log("Go");
+        // ChangeLevelToLoad(4);
     }
+    
 }

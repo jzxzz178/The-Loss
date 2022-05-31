@@ -621,7 +621,7 @@ GameObject:
   - component: {fileID: 765485580}
   m_Layer: 0
   m_Name: "\u0440\u0430\u043C\u043A\u0430 \u0431\u0430\u043C\u0431\u0443\u043A (2)"
-  m_TagString: Picture2
+  m_TagString: Picture3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
