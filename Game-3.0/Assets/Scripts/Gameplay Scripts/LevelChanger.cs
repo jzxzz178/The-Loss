@@ -7,7 +7,7 @@ using UnityEngine;
 public class LevelChanger : MonoBehaviour
 {
     private static Animator anim;
-    private static int levelToLoad;
+    private static int levelToLoad = 3;
 
     public static void ChangeLevelToLoad(int lvl)
     {
