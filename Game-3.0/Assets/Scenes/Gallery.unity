@@ -1229,7 +1229,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70593d426b2b65140a50cf0bc571d0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dumping: 1.5
+  dumping: 0.12
+  offsetX: 2
+  offsetY: 1
   offset: {x: 2, y: 1}
   isLeft: 0
   activePlayer: {fileID: 0}

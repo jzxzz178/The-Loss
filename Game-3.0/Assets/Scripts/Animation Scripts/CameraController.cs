@@ -7,7 +7,9 @@ using UnityEngine.Serialization;
 public class CameraController : MonoBehaviour
 {
     public float dumping = 1.5f;
-    public Vector2 offset = new Vector2(2f, 1f);
+    public float offsetX = 2f;
+    public float offsetY = 1f;
+    public Vector2 offset;
     public bool isLeft = false;
     public Transform activePlayer;
     public int lastX;
@@ -19,6 +21,7 @@ public class CameraController : MonoBehaviour
 
     public void Start()
     {
+        offset = new Vector2(offsetX, offsetY);
         offset = new Vector2(Mathf.Abs(offset.x), offset.y);
         activePlayer = null;
         FindPlayer(isLeft);

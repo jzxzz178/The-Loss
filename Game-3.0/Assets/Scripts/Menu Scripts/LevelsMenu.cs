@@ -20,7 +20,7 @@ public class LevelsMenu : MonoBehaviour
     public AudioClip hoverFx;
     public AudioClip clickFx;
     public Animator Slider;
-    private float volume;
+    private float volume = 0.35f;
 
     // Start is called before the first frame update
     void Start()

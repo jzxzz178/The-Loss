@@ -8,7 +8,7 @@ public class StartMenu : MonoBehaviour
 {
     public Animator Slider;
     public static bool GameIsPaused = false;
-    private float volume = 1f;
+    private float volume = 0.35f;
     private AudioSource myFx;
     public GameObject SettingsMenuUI;
     public GameObject StartButton;
@@ -17,6 +17,7 @@ public class StartMenu : MonoBehaviour
     void Start()
     {
         myFx = GetComponent<AudioSource>();
+        PlayerPrefs.SetFloat("Volume", volume);
         //volume = PlayerPrefs.GetFloat("Volume");
         //PlayerPrefs.SetFloat("Volume", 1f);
     }
@@ -89,7 +90,7 @@ public class StartMenu : MonoBehaviour
 
     public void ReturnToGalery()
     {
-        SceneManager.LoadScene(1, LoadSceneMode.Single);
+        SceneManager.LoadScene(4, LoadSceneMode.Single);
     }
 
     public void ClickSound()
