@@ -7,12 +7,6 @@ using UnityEngine.PlayerLoop;
 public class PlayerLevelSelect : MonoBehaviour
 {
     private bool availableToSwitchLevel;
-    private LevelChanger levelChanger;
-
-    public void Start()
-    {
-        levelChanger = GameObject.FindWithTag("LevelChanger").GetComponent<LevelChanger>();
-    }
 
     public void OnTriggerStay2D(Collider2D other)
     {
@@ -20,16 +14,19 @@ public class PlayerLevelSelect : MonoBehaviour
         {
             availableToSwitchLevel = true;
             LevelChanger.ChangeLevelToLoad(2);
+            EnterHint.StartAppearance();
         }
 
         if (other.gameObject.CompareTag("Picture2"))
         {
+            EnterHint.StartAppearance();
             availableToSwitchLevel = true;
             LevelChanger.ChangeLevelToLoad(3);
         }
 
         if (other.gameObject.CompareTag("Picture3"))
         {
+            EnterHint.StartAppearance();
             availableToSwitchLevel = true;
             LevelChanger.ChangeLevelToLoad(4);
         }
@@ -44,5 +41,6 @@ public class PlayerLevelSelect : MonoBehaviour
     public void OnTriggerExit2D(Collider2D other)
     {
         availableToSwitchLevel = false;
+        EnterHint.StartDisappearance();
     }
 }

@@ -17,6 +17,7 @@ TagManager:
   - Picture1
   - Picture2
   - Picture3
+  - EnterHint
   layers:
   - Default
   - TransparentFX
