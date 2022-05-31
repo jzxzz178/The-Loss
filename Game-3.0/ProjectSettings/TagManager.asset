@@ -14,6 +14,9 @@ TagManager:
   - Button
   - Clouds
   - Gate's property
+  - Picture1
+  - Picture2
+  - Picture3
   layers:
   - Default
   - TransparentFX

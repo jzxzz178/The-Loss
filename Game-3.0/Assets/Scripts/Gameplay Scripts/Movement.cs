@@ -59,7 +59,8 @@ public class Movement : MonoBehaviour
 
     private void Move(float axis)
     {
-        if (SceneManager.GetActiveScene().name == "First Scene") MoveHint.StartAnimation();
+        if (SceneManager.GetActiveScene().name == "First Scene" || SceneManager.GetActiveScene().name == "Gallery") 
+            MoveHint.StartAnimation();
         Axis = axis;
         if (!Control.CheckForConnection(player)) return;
         movementX = axis * speed;
