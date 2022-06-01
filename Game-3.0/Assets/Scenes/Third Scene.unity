@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3018060944219836912, guid: 5ae57110bc4a8c24da5db7193c902e23, type: 3}
       propertyPath: m_SortingOrder
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018060944219836915, guid: 5ae57110bc4a8c24da5db7193c902e23, type: 3}
       propertyPath: m_Name
@@ -8249,6 +8249,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dumping: 1.5
+  offsetX: 2
+  offsetY: 1
   offset: {x: 0, y: 0}
   isLeft: 1
   activePlayer: {fileID: 0}
