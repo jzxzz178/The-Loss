@@ -34,7 +34,7 @@ public class PlayerLevelSelect : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && availableToSwitchLevel)
+        if (Input.GetKeyDown(KeyCode.Return) && availableToSwitchLevel && !LevelMenu.GameIsPaused)
             LevelChanger.FadeToLevel();
     }
 

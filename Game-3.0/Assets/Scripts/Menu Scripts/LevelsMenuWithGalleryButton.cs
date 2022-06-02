@@ -6,7 +6,7 @@ using System;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class LevelsMenu : MonoBehaviour
+public class LevelsMenuWithGalleryButton : MonoBehaviour
 {
     public static bool GameIsPaused = false;
 
