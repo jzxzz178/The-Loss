@@ -17,7 +17,7 @@ public class SpiritPicker : MonoBehaviour
     {
         maxSpiritCount = GameObject.FindGameObjectsWithTag("Spirit").Length;
         spiritCount = 0;
-        pick = gameObject.GetComponent<AudioSource>();
+        pick = gameObject.GetComponent<AudioSource>();  
         
         anim = GameObject.FindWithTag("Gate's property").GetComponent<Animator>();
     }
