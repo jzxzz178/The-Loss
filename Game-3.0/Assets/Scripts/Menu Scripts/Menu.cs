@@ -13,91 +13,28 @@ public class Menu : MonoBehaviour
     public bool MenuIncluded = false;
 
     public Animator Pointer;
-
-    //public AudioSource myFx;
+    
     private AudioSource myFx;
     public AudioClip levelStartFx;
     public AudioClip hoverFx;
     public AudioClip clickFx;
     public Animator Slider;
-    // public Animator Picture1;
-    // public Animator Picture2;
     public AudioClip GaleryOpen;
-    public static int pictureNumber = 0;
     private float volume;
-    private bool pictureIsAnimated = false;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         volume = PlayerPrefs.GetFloat("Volume");
         myFx = GetComponent<AudioSource>();
-        if (SceneManager.GetActiveScene().buildIndex > 1)
+        /*if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             LevelStartSound();
-        }
-        // else if (SceneManager.GetActiveScene().buildIndex == 1)
-        // myFx.PlayOneShot(GaleryOpen);
-    }
-
-    public static void UpdatePictureNumber(int number)
-    {
-        pictureNumber = number;
-    }
-
-    public static void PlayerLeftPicture()
-    {
-        pictureNumber = -1;
+        }*/
     }
 
     void Update()
     {
         myFx.volume = volume;
-        if (!GameIsPaused)
-        {
-            if (Input.GetKeyDown(KeyCode.Return) && pictureNumber == 1)
-            {
-                PlayLevelOne();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Return) && pictureNumber == 2)
-            {
-                PlayLevelTwo();
-            }
-
-
-            if (Input.GetKeyDown(KeyCode.A) && pictureNumber == 1)
-            {
-                HoverSound();
-                pictureNumber = 0;
-                pictureIsAnimated = false;
-                //Debug.Log(pictureNumber);
-            }
-
-            if (Input.GetKeyDown(KeyCode.D) && pictureNumber == 0)
-            {
-                HoverSound();
-                pictureNumber = 1;
-                pictureIsAnimated = false;
-                // Debug.Log(pictureNumber);
-            }
-
-            /*if (pictureNumber == 0 && !pictureIsAnimated)
-            {
-                Picture2.enabled = false;
-                Picture1.enabled = true;
-                Picture1.Play("choice1", -1, 0f);
-                pictureIsAnimated = true;
-            }
-            else if (!pictureIsAnimated)
-            {
-                Picture1.enabled = false;
-                Picture2.enabled = true;
-                Picture2.Play("choice2", -1, 0f);
-                pictureIsAnimated = true;
-            }*/
-        }
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameIsPaused)
@@ -130,7 +67,6 @@ public class Menu : MonoBehaviour
 
         if (!MenuIncluded && GameIsPaused)
         {
-            pictureIsAnimated = false;
             if (Input.GetKeyDown(KeyCode.RightArrow) && volume < 1f)
             {
                 volume += 0.2f;
@@ -213,7 +149,7 @@ public class Menu : MonoBehaviour
 
     public void QuitGame()
     {
-        //Resume();
+        // Resume();
         // Debug.Log("Quit");
         ClickSound();
         Application.Quit();
@@ -241,7 +177,7 @@ public class Menu : MonoBehaviour
         SettingsMenuUI.SetActive(false);
     }
 
-    public void ReturnToGalery()
+    public void ReturnToGallery()
     {
         Resume();
         SceneManager.LoadScene(1, LoadSceneMode.Single);

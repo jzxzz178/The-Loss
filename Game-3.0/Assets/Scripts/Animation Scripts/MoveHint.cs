@@ -12,7 +12,6 @@ public class MoveHint : MonoBehaviour
         anim = gameObject.GetComponent<Animator>();
     }
 
-
     public static void StartAnimation()
     {
         anim.SetTrigger("started moving");

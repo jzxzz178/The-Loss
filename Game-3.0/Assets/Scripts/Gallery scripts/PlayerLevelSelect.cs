@@ -8,13 +8,13 @@ public class PlayerLevelSelect : MonoBehaviour
 {
     private bool availableToSwitchLevel;
 
-    public void OnTriggerStay2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Picture1"))
         {
+            EnterHint.StartAppearance();
             availableToSwitchLevel = true;
             LevelChanger.ChangeLevelToLoad(1);
-            EnterHint.StartAppearance();
         }
 
         if (other.gameObject.CompareTag("Picture2"))
@@ -40,7 +40,9 @@ public class PlayerLevelSelect : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D other)
     {
+        
+        if (availableToSwitchLevel)
+            EnterHint.StartDisappearance();
         availableToSwitchLevel = false;
-        EnterHint.StartDisappearance();
     }
 }

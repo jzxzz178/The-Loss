@@ -1,49 +1,55 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LevelsMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
-    public GameObject PauseMenuUI;
-    public GameObject SettingsMenuUI;
-    public static int ButtonIndex = 0;
-    public bool MenuIncluded = false;
-    public Animator Pointer;
-    //public AudioSource myFx;
+
+    [FormerlySerializedAs("PauseMenuUI")] public GameObject pauseMenuUI;
+
+    [FormerlySerializedAs("SettingsMenuUI")]
+    public GameObject settingsMenuUI;
+
+    private static int buttonIndex = 0;
+    private float volume = 0.35f;
+
+    [FormerlySerializedAs("menuIncluded")] [FormerlySerializedAs("MenuIncluded")]
+    public bool menuTurnedOn = false;
+
+    [FormerlySerializedAs("Pointer")] public Animator pointer;
+    [FormerlySerializedAs("Slider")] public Animator slider;
     private AudioSource myFx;
+
     public AudioClip levelStartFx;
     public AudioClip hoverFx;
     public AudioClip clickFx;
-    public Animator Slider;
-    private float volume = 0.35f;
 
-    
+
     void Start()
     {
         volume = PlayerPrefs.GetFloat("Volume");
         myFx = GetComponent<AudioSource>();
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
-           // LevelStartSound();
+            // LevelStartSound();
         }
-        //else if (SceneManager.GetActiveScene().buildIndex == 1)
+        // else if (SceneManager.GetActiveScene().buildIndex == 1)
         // myFx.PlayOneShot(GaleryOpen);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        myFx.volume = volume;     
+        myFx.volume = volume;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameIsPaused)
             {
-                if (MenuIncluded)
+                if (menuTurnedOn)
                 {
                     HoverSound();
                     Resume();
@@ -57,21 +63,20 @@ public class LevelsMenu : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) && MenuIncluded && ButtonIndex + 1 <= 3)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && menuTurnedOn && buttonIndex + 1 <= 4)
         {
             HoverSound();
-            ButtonIndex = ButtonIndex + 1;
+            buttonIndex += 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && MenuIncluded && ButtonIndex - 1 >= 0)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && menuTurnedOn && buttonIndex - 1 >= 0)
         {
             HoverSound();
-            ButtonIndex = ButtonIndex - 1;
+            buttonIndex -= 1;
         }
 
-        if (!MenuIncluded && GameIsPaused)
+        if (!menuTurnedOn && GameIsPaused)
         {
-            
             if (Input.GetKeyDown(KeyCode.RightArrow) && volume < 1f)
             {
                 volume += 0.2f;
@@ -85,24 +90,28 @@ public class LevelsMenu : MonoBehaviour
             }
 
             if (volume - 0 <= 10e-7)
-                Slider.Play("Volume0", -1, 0.5f);
+                slider.Play("Volume0", -1, 0.5f);
+
             else if (volume - 0.2f <= 10e-7)
-                Slider.Play("Volume1", -1, 0.5f);
+                slider.Play("Volume1", -1, 0.5f);
+
             else if (volume - 0.4f <= 10e-7)
-                Slider.Play("Volume2", -1, 0.5f);
+                slider.Play("Volume2", -1, 0.5f);
+
             else if (volume - 0.6f <= 10e-7)
-                Slider.Play("Volume3", -1, 0.5f);
+                slider.Play("Volume3", -1, 0.5f);
+
             else if (volume - 0.8f <= 10e-7)
-                Slider.Play("Volume4", -1, 0.5f);
+                slider.Play("Volume4", -1, 0.5f);
+
             else if (volume - 1f <= 10e-7)
-                Slider.Play("Volume5", -1, 0.5f);
+                slider.Play("Volume5", -1, 0.5f);
         }
 
 
-
-        if (Input.GetKeyDown(KeyCode.Return) && MenuIncluded)
+        if (Input.GetKeyDown(KeyCode.Return) && menuTurnedOn)
         {
-            switch (ButtonIndex)
+            switch (buttonIndex)
             {
                 case 0:
                     ClickSound();
@@ -116,102 +125,98 @@ public class LevelsMenu : MonoBehaviour
                     SettingsPlay();
                     break;
                 case 3:
+                    ClickSound();
+                    ReturnToGallery();
+                    break;
+                case 4:
                     QuitGame();
                     break;
             }
-
         }
 
-        if (MenuIncluded)
+        if (menuTurnedOn)
         {
-            switch (ButtonIndex)
+            switch (buttonIndex)
             {
                 case 0:
-                    Pointer.Play("ContinueChoiceGame", -1, 0.5f);
+                    pointer.Play("ContinueChoiceGame", -1, 0.5f);
                     break;
                 case 1:
-                    Pointer.Play("RestartChoiceGame", -1, 0.5f);
+                    pointer.Play("RestartChoiceGame", -1, 0.5f);
                     break;
                 case 2:
-                    Pointer.Play("SettingsChoiceGame", -1, 0.5f);
+                    pointer.Play("SettingsChoiceGame", -1, 0.5f);
                     break;
                 case 3:
-                    Pointer.Play("ExitChoiceGame", -1, 0.5f);
+                    pointer.Play("ExitChoiceGame", -1, 0.5f);
+                    break;
+                case 4:
+                    pointer.Play("GalleryChoice", -1, 0.5f);
                     break;
             }
         }
     }
 
-    public void Resume()
+    private void Resume()
     {
-
-        PauseMenuUI.SetActive(false);
-        SettingsMenuUI.SetActive(false);
+        pauseMenuUI.SetActive(false);
+        settingsMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        MenuIncluded = false;
+        menuTurnedOn = false;
     }
 
-    public void Pause()
+    private void Pause()
     {
         HoverSound();
-        PauseMenuUI.SetActive(true);
+        pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
-        MenuIncluded = true;
+        menuTurnedOn = true;
     }
 
-    public void QuitGame()
+    private void QuitGame()
     {
-        //Resume();
-        // Debug.Log("Quit");
         ClickSound();
         Application.Quit();
     }
 
-    public void ReStart()
+    private void ReStart()
     {
         Resume();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
-    public void SettingsPlay()
+    private void SettingsPlay()
     {
         ClickSound();
-        PauseMenuUI.SetActive(false);
-        SettingsMenuUI.SetActive(true);
-        MenuIncluded = false;
+        pauseMenuUI.SetActive(false);
+        settingsMenuUI.SetActive(true);
+        menuTurnedOn = false;
     }
 
-    public void SettingsExit()
+    private void SettingsExit()
     {
         HoverSound();
-        MenuIncluded = true;
-        PauseMenuUI.SetActive(true);
-        SettingsMenuUI.SetActive(false);
+        menuTurnedOn = true;
+        pauseMenuUI.SetActive(true);
+        settingsMenuUI.SetActive(false);
     }
 
-    public void ReturnToGalery()
+    private void ReturnToGallery()
     {
         Resume();
-        SceneManager.LoadScene(1, LoadSceneMode.Single);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(4, LoadSceneMode.Single);
     }
 
-    public void PlayLevelOne()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
-    }
 
-    public void PlayLevelTwo()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2, LoadSceneMode.Single);
-    }
-    public void HoverSound()
+    private void HoverSound()
     {
         myFx.PlayOneShot(hoverFx);
     }
 
-    public void ClickSound()
+    private void ClickSound()
     {
         myFx.PlayOneShot(clickFx);
     }
@@ -221,5 +226,3 @@ public class LevelsMenu : MonoBehaviour
         myFx.PlayOneShot(levelStartFx);
     }
 }
-
-
