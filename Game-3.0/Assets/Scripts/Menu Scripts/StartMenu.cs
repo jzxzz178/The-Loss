@@ -8,10 +8,10 @@ public class StartMenu : MonoBehaviour
 {
     public Animator Slider;
     public static bool GameIsPaused = false;
-    private float volume = 0.35f;
+    private float volume = 0.4f;
     private AudioSource myFx;
     public GameObject SettingsMenuUI;
-    public GameObject StartButton;
+    // public GameObject StartButton;
     public AudioClip clickFx;
     // Start is called before the first frame update
     void Start()
@@ -25,6 +25,9 @@ public class StartMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Return))
+            LevelChanger.FadeToLevel();
+            
         myFx.volume = volume;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -77,7 +80,7 @@ public class StartMenu : MonoBehaviour
         ClickSound();
         GameIsPaused = true;
         SettingsMenuUI.SetActive(true);
-        StartButton.SetActive(false);
+        // StartButton.SetActive(false);
     }
 
     public void SettingsExit()
@@ -85,7 +88,7 @@ public class StartMenu : MonoBehaviour
         ClickSound();
         GameIsPaused = false;
         SettingsMenuUI.SetActive(false);
-        StartButton.SetActive(true);
+        // StartButton.SetActive(true);
     }
 
     public void ReturnToGalery()
