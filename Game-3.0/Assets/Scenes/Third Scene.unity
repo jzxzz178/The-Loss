@@ -3742,6 +3742,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5272243028714770030, guid: 8e82e9b1de6fb8e4b8d436e41da30f55, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5272243028714770031, guid: 8e82e9b1de6fb8e4b8d436e41da30f55, type: 3}
       propertyPath: m_Name
       value: Level Menu & Gallery Button
@@ -7655,7 +7659,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1466518538
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -325,7 +325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3223285523096005343, guid: f2244a7ce38f00048a9aa0a368a11d4f, type: 3}
       propertyPath: m_Name
-      value: menu
+      value: Background
       objectReference: {fileID: 0}
     - target: {fileID: 7895149576152864895, guid: f2244a7ce38f00048a9aa0a368a11d4f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1061,7 +1061,7 @@ GameObject:
   - component: {fileID: 1368539515}
   - component: {fileID: 1368539514}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1096,7 +1096,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.35
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
