@@ -22,7 +22,7 @@ public class LevelsMenu : MonoBehaviour
     public Animator Slider;
     private float volume = 0.35f;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         volume = PlayerPrefs.GetFloat("Volume");

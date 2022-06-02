@@ -22,15 +22,15 @@ public class LevelChanger : MonoBehaviour
     public static void FadeToLevel()
     {
         anim.SetTrigger("fade");
-        Debug.Log("Запуск анимации");
     }
 
     public void OnFadeComplete()
     {
         if (SceneManager.GetActiveScene().name != "Gallery") levelToLoad = 4;
+        SceneSaver.Save(SceneManager.GetActiveScene().name);
+        PlayerPrefs.Save();
         SceneManager.LoadScene(levelToLoad);
-        Debug.Log("Go");
-        // ChangeLevelToLoad(4);
+        
     }
     
 }
