@@ -5,6 +5,19 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wall
+  - Line
+  - Spirit
+  - Door
+  - LevelChanger
+  - LightBulb
+  - Platform
+  - Button
+  - Clouds
+  - Gate's property
+  - Picture1
+  - Picture2
+  - Picture3
+  - EnterHint
   layers:
   - Default
   - TransparentFX
@@ -41,4 +54,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2172214457
     locked: 0
