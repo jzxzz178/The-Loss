@@ -24,9 +24,12 @@ public class LevelChanger : MonoBehaviour
 
     public void OnFadeComplete()
     {
-        if (SceneManager.GetActiveScene().name != "Gallery") levelToLoad = 4;
-        if (SceneManager.GetActiveScene().name == "Start Menu") levelToLoad = 5;
-        if (SceneManager.GetActiveScene().name == "Third Scene") levelToLoad = 6;
+        if (SceneManager.GetActiveScene().buildIndex != 4) 
+            levelToLoad = 4;
+        if (SceneManager.GetActiveScene().buildIndex == 0) 
+            levelToLoad = 5;
+        if (SceneManager.GetActiveScene().buildIndex == 3) 
+            levelToLoad = 6;
         SceneSaver.Save(SceneManager.GetActiveScene().name);
         PlayerPrefs.Save();
         SceneManager.LoadScene(levelToLoad);
