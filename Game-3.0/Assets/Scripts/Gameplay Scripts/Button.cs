@@ -1,27 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Button : MonoBehaviour
 {
-    private float startPositionY;
-    private bool onCollision;
-
-    private Animator animator;
-
     public float upperEdge = 5f;
     public float bottomEdge = -1f;
     public float speed = 3f;
     public GameObject platform;
 
-    void Start()
+    private Animator animator;
+    private bool onCollision;
+    private float startPositionY;
+    private static readonly int GoDown = Animator.StringToHash("goDown");
+    private static readonly int GoUp = Animator.StringToHash("goUp");
+
+    private void Start()
     {
         startPositionY = transform.position.y;
         animator = gameObject.GetComponent<Animator>();
     }
 
-    void Update()
+    private void Update()
     {
         // опускание кнопки и поднятие кнопки
         if (!onCollision)
@@ -30,7 +28,14 @@ public class Button : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        animator.SetTrigger("goDown");
+        animator.SetTrigger(GoDown);
+    }
+
+    public void OnCollisionExit2D(Collision2D other)
+    {
+        onCollision = false;
+        MovePlatformDown();
+        animator.SetTrigger(GoUp);
     }
 
     public void OnCollisionStay2D(Collision2D col)
@@ -39,20 +44,12 @@ public class Button : MonoBehaviour
         MovePlatformUp();
     }
 
-    public void OnCollisionExit2D(Collision2D other)
-    {
-        onCollision = false;
-        MovePlatformDown();
-        animator.SetTrigger("goUp");
-    }
-
     private void MovePlatformUp()
     {
         if (platform.transform.position.y > upperEdge)
             return;
         platform.transform.position =
             new Vector2(platform.transform.position.x, platform.transform.position.y + speed * Time.deltaTime);
-        
     }
 
     private void MovePlatformDown()

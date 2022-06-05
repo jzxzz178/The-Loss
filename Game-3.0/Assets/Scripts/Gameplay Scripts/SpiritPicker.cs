@@ -1,24 +1,22 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpiritPicker : MonoBehaviour
 {
     private static int spiritCount;
     private static int maxSpiritCount;
+    private static Animator anim;
+    public AudioClip clip;
 
     private AudioSource pick;
-    public AudioClip clip;
-    private static Animator anim;
-    
+    private static readonly int OpenDoors = Animator.StringToHash("openDoors");
+
 
     private void Start()
     {
         maxSpiritCount = GameObject.FindGameObjectsWithTag("Spirit").Length;
         spiritCount = 0;
-        pick = gameObject.GetComponent<AudioSource>();  
-        
+        pick = gameObject.GetComponent<AudioSource>();
+
         anim = GameObject.FindWithTag("Gate's property").GetComponent<Animator>();
     }
 
@@ -29,15 +27,9 @@ public class SpiritPicker : MonoBehaviour
             pick.PlayOneShot(clip);
             Destroy(other.gameObject);
             spiritCount++;
-            if (spiritCount == maxSpiritCount)
-            {
-                anim.SetTrigger("openDoors");
-            }
+            if (spiritCount == maxSpiritCount) anim.SetTrigger(OpenDoors);
         }
 
-        if (other.gameObject.CompareTag("Door") && spiritCount == maxSpiritCount)
-        {
-            LevelChanger.FadeToLevel();
-        }
+        if (other.gameObject.CompareTag("Door") && spiritCount == maxSpiritCount) LevelChanger.FadeToLevel();
     }
 }

@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveHint : MonoBehaviour
 {
     private static Animator anim;
+    private static readonly int Property = Animator.StringToHash("started moving");
 
     public void Start()
     {
@@ -14,6 +12,6 @@ public class MoveHint : MonoBehaviour
 
     public static void StartAnimation()
     {
-        anim.SetTrigger("started moving");
+        anim.SetTrigger(Property);
     }
 }

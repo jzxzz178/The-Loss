@@ -1,27 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
-using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class TimeLineMenedgerSc : MonoBehaviour
 {
-    public PlayableDirector Director;
-   // private AudioSource myfx;
-    // Start is called before the first frame update
-    void Start()
+    [FormerlySerializedAs("Director")] public PlayableDirector director;
+    
+    private void Update()
     {
-       // myfx = GetComponent<AudioSource>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //myfx.volume = 1;
-        if (Director.state != PlayState.Playing)
-        {
-            SceneManager.LoadScene(4, LoadSceneMode.Single);
-        }
+        if (director.state != PlayState.Playing) SceneManager.LoadScene(4, LoadSceneMode.Single);
     }
 }

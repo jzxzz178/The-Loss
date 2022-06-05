@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpaceHint : MonoBehaviour
 {
     private static Animator anim;
+    private static readonly int Property = Animator.StringToHash("started moving");
 
     public void Start()
     {
@@ -14,6 +13,6 @@ public class SpaceHint : MonoBehaviour
 
     public static void StartAnimation()
     {
-        anim.SetTrigger("started moving");
+        anim.SetTrigger(Property);
     }
 }

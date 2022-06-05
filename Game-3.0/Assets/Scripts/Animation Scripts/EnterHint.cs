@@ -1,11 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnterHint : MonoBehaviour
 {
     private static Animator anim;
+    private static readonly int OnTrigger = Animator.StringToHash("onTrigger");
+    private static readonly int OutTrigger = Animator.StringToHash("outTrigger");
 
     private void Start()
     {
@@ -14,11 +13,11 @@ public class EnterHint : MonoBehaviour
 
     public static void StartAppearance()
     {
-        anim.SetTrigger("onTrigger");
+        anim.SetTrigger(OnTrigger);
     }
 
     public static void StartDisappearance()
     {
-        anim.SetTrigger("outTrigger");
+        anim.SetTrigger(OutTrigger);
     }
 }

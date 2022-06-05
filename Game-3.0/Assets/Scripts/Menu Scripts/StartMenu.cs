@@ -1,29 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System;
+using UnityEngine.Serialization;
 
 public class StartMenu : MonoBehaviour
 {
-    public Animator Slider;
-    public static bool GameIsPaused = false;
-    private float volume = 0.4f;
-    private AudioSource myFx;
-    public GameObject SettingsMenuUI;
-    // public GameObject StartButton;
+    private static bool gameIsPaused;
+    [FormerlySerializedAs("Slider")] public Animator slider;
+
+    [FormerlySerializedAs("SettingsMenuUI")]
+    public GameObject settingsMenuUI;
+
     public AudioClip clickFx;
-    // Start is called before the first frame update
-    void Start()
+    private AudioSource myFx;
+
+    private float volume = 0.4f;
+
+    private void Start()
     {
         myFx = GetComponent<AudioSource>();
         PlayerPrefs.SetFloat("Volume", volume);
-        //volume = PlayerPrefs.GetFloat("Volume");
-        //PlayerPrefs.SetFloat("Volume", 1f);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
             LevelChanger.FadeToLevel();
@@ -31,63 +28,49 @@ public class StartMenu : MonoBehaviour
         myFx.volume = volume;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
-            {
+            if (gameIsPaused)
                 SettingsExit();
-            }
             else
-            {
                 SettingsPlay();
-            }
         }
 
-        if (GameIsPaused)
+        if (gameIsPaused)
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow) && volume < 1f)
-            {
-                volume += 0.2f;
+            if (Input.GetKeyDown(KeyCode.RightArrow) && volume < 1f) volume += 0.2f;
 
-            }
-
-            if (Input.GetKeyDown(KeyCode.LeftArrow) && volume > 0f)
-            {
-                volume -= 0.2f;
-
-            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && volume > 0f) volume -= 0.2f;
 
             PlayerPrefs.SetFloat("Volume", volume);
             if (volume - 0 <= 10e-7)
-                Slider.Play("Volume0", -1, 0.5f);
+                slider.Play("Volume0", -1, 0.5f);
             else if (volume - 0.2f <= 10e-7)
-                Slider.Play("Volume1", -1, 0.5f);
+                slider.Play("Volume1", -1, 0.5f);
             else if (volume - 0.4f <= 10e-7)
-                Slider.Play("Volume2", -1, 0.5f);
+                slider.Play("Volume2", -1, 0.5f);
             else if (volume - 0.6f <= 10e-7)
-                Slider.Play("Volume3", -1, 0.5f);
+                slider.Play("Volume3", -1, 0.5f);
             else if (volume - 0.8f <= 10e-7)
-                Slider.Play("Volume4", -1, 0.5f);
+                slider.Play("Volume4", -1, 0.5f);
             else if (volume - 1f <= 10e-7)
-                Slider.Play("Volume5", -1, 0.5f);
+                slider.Play("Volume5", -1, 0.5f);
         }
     }
 
-    public void SettingsPlay()
+    private void SettingsPlay()
     {
         ClickSound();
-        GameIsPaused = true;
-        SettingsMenuUI.SetActive(true);
-        // StartButton.SetActive(false);
+        gameIsPaused = true;
+        settingsMenuUI.SetActive(true);
     }
 
-    public void SettingsExit()
+    private void SettingsExit()
     {
         ClickSound();
-        GameIsPaused = false;
-        SettingsMenuUI.SetActive(false);
-        // StartButton.SetActive(true);
+        gameIsPaused = false;
+        settingsMenuUI.SetActive(false);
     }
 
-    public void ClickSound()
+    private void ClickSound()
     {
         myFx.PlayOneShot(clickFx);
     }

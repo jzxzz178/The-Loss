@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
@@ -10,7 +6,7 @@ public class CameraController : MonoBehaviour
     public float offsetX = 2f;
     public float offsetY = 1f;
     public Vector2 offset;
-    public bool isLeft = false;
+    public bool isLeft;
     public Transform activePlayer;
     public int lastX;
 
@@ -27,23 +23,6 @@ public class CameraController : MonoBehaviour
         FindPlayer(isLeft);
     }
 
-    private void FindPlayer(bool playerIsLeft)
-    {
-        activePlayer = Control.TakeActivePlayer()?.transform;
-        if (activePlayer == null) return;
-        lastX = Mathf.RoundToInt(activePlayer.position.x);
-        if (playerIsLeft)
-        {
-            transform.position = new Vector3(activePlayer.position.x - offset.x, activePlayer.position.y - offset.y,
-                transform.position.z);
-        }
-        else
-        {
-            transform.position = new Vector3(activePlayer.position.x + offset.x, activePlayer.position.y + offset.y,
-                transform.position.z);
-        }
-    }
-
     public void Update()
     {
         activePlayer = Control.TakeActivePlayer().transform;
@@ -56,22 +35,33 @@ public class CameraController : MonoBehaviour
 
             Vector3 target;
             if (isLeft)
-            {
                 target = new Vector3(activePlayer.position.x - offset.x, activePlayer.position.y + offset.y,
                     transform.position.z);
-            }
             else
-            {
                 target = new Vector3(activePlayer.position.x + offset.x, activePlayer.position.y + offset.y,
                     transform.position.z);
-            }
 
-            Vector3 currentPosition = Vector3.Lerp(transform.position, target, dumping * Time.deltaTime);
+            var currentPosition = Vector3.Lerp(transform.position, target, dumping * Time.deltaTime);
             transform.position = currentPosition;
         }
 
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftLimit, rightLimit),
-            Mathf.Clamp(transform.position.y, bottomLimit, upperLimit), transform.position.z
+        var position = transform.position;
+        position = new Vector3(Mathf.Clamp(position.x, leftLimit, rightLimit),
+            Mathf.Clamp(position.y, bottomLimit, upperLimit), position.z
         );
+        transform.position = position;
+    }
+
+    private void FindPlayer(bool playerIsLeft)
+    {
+        activePlayer = Control.TakeActivePlayer()?.transform;
+        if (activePlayer == null) return;
+        lastX = Mathf.RoundToInt(activePlayer.position.x);
+        if (playerIsLeft)
+            transform.position = new Vector3(activePlayer.position.x - offset.x, activePlayer.position.y - offset.y,
+                transform.position.z);
+        else
+            transform.position = new Vector3(activePlayer.position.x + offset.x, activePlayer.position.y + offset.y,
+                transform.position.z);
     }
 }

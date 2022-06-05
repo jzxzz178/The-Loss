@@ -1,12 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class PlayerLevelSelect : MonoBehaviour
 {
     private bool availableToSwitchLevel;
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) && availableToSwitchLevel && !LevelMenu.GameIsPaused)
+            LevelChanger.FadeToLevel();
+    }
 
     public void OnTriggerEnter2D(Collider2D other)
     {
@@ -32,15 +34,8 @@ public class PlayerLevelSelect : MonoBehaviour
         }
     }
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return) && availableToSwitchLevel && !LevelMenu.GameIsPaused)
-            LevelChanger.FadeToLevel();
-    }
-
     public void OnTriggerExit2D(Collider2D other)
     {
-        
         if (availableToSwitchLevel)
             EnterHint.StartDisappearance();
         availableToSwitchLevel = false;

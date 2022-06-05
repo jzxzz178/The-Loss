@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.Universal;
 
 public class PictureLight : MonoBehaviour
 {
     private Animator light;
+    private static readonly int LightOn = Animator.StringToHash("lightOn");
+    private static readonly int LightOff = Animator.StringToHash("lightOff");
 
     private void Start()
     {
@@ -15,17 +13,11 @@ public class PictureLight : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Player"))
-        {
-            light.SetTrigger("lightOn");
-        }
+        if (col.CompareTag("Player")) light.SetTrigger(LightOn);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            light.SetTrigger("lightOff");
-        }
+        if (other.CompareTag("Player")) light.SetTrigger(LightOff);
     }
 }

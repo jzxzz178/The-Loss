@@ -1,30 +1,27 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Object = System.Object;
 
 public class Control : MonoBehaviour
 {
-    private SwapSystem swapSystem;
     private static TabList tabList;
 
     private static GameObject[] players;
     private static GameObject[] lines;
 
     private static readonly Dictionary<GameObject, bool> LinkDictionary = new Dictionary<GameObject, bool>();
+    private SwapSystem swapSystem;
 
     private void Awake()
     {
         swapSystem = new SwapSystem();
         swapSystem.SwapPlayer.Swap.performed += context => Swap();
-        
+
         players = GameObject.FindGameObjectsWithTag("Player").OrderBy(x => x.name).ToArray();
         tabList = new TabList(players);
-        
+
         foreach (var player in players)
             UpdateDictionary(player, false);
 
@@ -42,6 +39,16 @@ public class Control : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        swapSystem.Enable();
+    }
+
+    private void OnDisable()
+    {
+        swapSystem.Disable();
+    }
+
     public static GameObject TakeActivePlayer()
     {
         return tabList.ActivePlayer;
@@ -56,10 +63,16 @@ public class Control : MonoBehaviour
             if (value) tabList.AddOrGoToUp(player);
         }
 
-        else LinkDictionary[player] = value;
+        else
+        {
+            LinkDictionary[player] = value;
+        }
     }
 
-    public static bool CheckForConnection(GameObject player) => LinkDictionary[player];
+    public static bool CheckForConnection(GameObject player)
+    {
+        return LinkDictionary[player];
+    }
 
     private static void Swap()
     {
@@ -76,10 +89,6 @@ public class Control : MonoBehaviour
             i++;
         }
     }
-
-    private void OnEnable() => swapSystem.Enable();
-
-    private void OnDisable() => swapSystem.Disable();
 
     private class TabList
     {

@@ -1,14 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-// using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+// using UnityEditor.SearchService;
 
 public class Movement : MonoBehaviour
 {
-    private PlayerInputSystem input;
-    private Animator anim;
+    private static float tempAxis;
 
     public float speed = 4;
     public float jumpForce = 7;
@@ -16,21 +13,23 @@ public class Movement : MonoBehaviour
     public Transform groundCheck;
     public float groundRadius;
     public LayerMask layerGrounds;
+    private Animator anim;
+    private PlayerInputSystem input;
 
     private bool isGrounded;
-    private float movementX;
     private bool jump;
-
-    private new Rigidbody2D rigidbody;
+    private float movementX;
     private GameObject player;
 
-    public static float Axis;
+    private new Rigidbody2D rigidbody;
+    private static readonly int Run = Animator.StringToHash("run");
+    private static readonly int Jump1 = Animator.StringToHash("jump");
 
     private void Awake()
     {
         input = new PlayerInputSystem();
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
-        anim=gameObject.GetComponent<Animator>();
+        anim = gameObject.GetComponent<Animator>();
         player = gameObject.gameObject;
 
         input.Player.Move.performed += context => Move(context.ReadValue<float>());
@@ -41,27 +40,38 @@ public class Movement : MonoBehaviour
     private void Update()
     {
         if (!Control.CheckForConnection(player))
-        {
             movementX = 0;
-        }
-        else if (input.Player.Move.IsPressed()) Move(Axis);
+        else if (input.Player.Move.IsPressed()) Move(tempAxis);
         rigidbody.velocity = new Vector2(movementX, rigidbody.velocity.y);
-        anim.SetBool("run",movementX!=0);
-        
+        anim.SetBool(Run, movementX != 0);
     }
 
     private void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, layerGrounds);
-        anim.SetBool("jump",!isGrounded);
+        anim.SetBool(Jump1, !isGrounded);
+    }
 
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.Disable();
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        movementX = 0;
     }
 
     private void Move(float axis)
     {
-        if (SceneManager.GetActiveScene().name == "First Scene" || SceneManager.GetActiveScene().name == "Gallery") 
+        if (SceneManager.GetActiveScene().name == "First Scene" || SceneManager.GetActiveScene().name == "Gallery")
             MoveHint.StartAnimation();
-        Axis = axis;
+        tempAxis = axis;
         if (!Control.CheckForConnection(player)) return;
         movementX = axis * speed;
         if (axis != 0)
@@ -76,13 +86,4 @@ public class Movement : MonoBehaviour
         rigidbody.velocity = new Vector2(movementX, jumpForce);
         isGrounded = false;
     }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        movementX = 0;
-    }
-
-    private void OnEnable() => input.Enable();
-
-    private void OnDisable() => input.Disable();
 }

@@ -1,44 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class LevelMenu : MonoBehaviour
 {
-    public static bool GameIsPaused = false;
+    public static bool GameIsPaused;
+
+    private static int buttonIndex;
 
     public GameObject pauseMenuUI;
-     
+
     public GameObject settingsMenuUI;
 
-    private static int buttonIndex = 0;
-    private float volume = 0.35f;
-
-    public bool menuTurnedOn = false;
+    public bool menuTurnedOn;
 
     public Animator pointer;
-     public Animator slider;
-    private AudioSource myFx;
+    public Animator slider;
 
     public AudioClip levelStartFx;
     public AudioClip hoverFx;
     public AudioClip clickFx;
+    private AudioSource myFx;
+    private float volume = 0.35f;
 
 
-    void Start()
+    private void Start()
     {
         volume = PlayerPrefs.GetFloat("Volume");
         myFx = GetComponent<AudioSource>();
-        if (SceneManager.GetActiveScene().buildIndex > 1)
-        {
-            // LevelStartSound();
-        }
-        // else if (SceneManager.GetActiveScene().buildIndex == 1)
-        // myFx.PlayOneShot(GaleryOpen);
     }
 
-    void Update()
+    private void Update()
     {
         myFx.volume = volume;
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -51,7 +42,9 @@ public class LevelMenu : MonoBehaviour
                     Resume();
                 }
                 else
+                {
                     SettingsExit();
+                }
             }
             else
             {
@@ -106,7 +99,6 @@ public class LevelMenu : MonoBehaviour
 
 
         if (Input.GetKeyDown(KeyCode.Return) && menuTurnedOn)
-        {
             switch (buttonIndex)
             {
                 case 0:
@@ -124,10 +116,8 @@ public class LevelMenu : MonoBehaviour
                     QuitGame();
                     break;
             }
-        }
 
         if (menuTurnedOn)
-        {
             switch (buttonIndex)
             {
                 case 0:
@@ -143,7 +133,6 @@ public class LevelMenu : MonoBehaviour
                     pointer.Play("ExitChoiceGame", -1, 0.5f);
                     break;
             }
-        }
     }
 
     private void Resume()

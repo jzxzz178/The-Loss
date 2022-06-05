@@ -1,53 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 public class LevelsMenuWithGalleryButton : MonoBehaviour
 {
-    public static bool GameIsPaused = false;
+    private static bool gameIsPaused;
+
+    private static int buttonIndex;
 
     [FormerlySerializedAs("PauseMenuUI")] public GameObject pauseMenuUI;
 
     [FormerlySerializedAs("SettingsMenuUI")]
     public GameObject settingsMenuUI;
 
-    private static int buttonIndex = 0;
-    private float volume = 0.35f;
-
     [FormerlySerializedAs("menuIncluded")] [FormerlySerializedAs("MenuIncluded")]
-    public bool menuTurnedOn = false;
+    public bool menuTurnedOn;
 
     [FormerlySerializedAs("Pointer")] public Animator pointer;
     [FormerlySerializedAs("Slider")] public Animator slider;
-    private AudioSource myFx;
 
     public AudioClip levelStartFx;
     public AudioClip hoverFx;
     public AudioClip clickFx;
+    private AudioSource myFx;
+    private float volume = 0.35f;
 
 
-    void Start()
+    private void Start()
     {
         volume = PlayerPrefs.GetFloat("Volume");
         myFx = GetComponent<AudioSource>();
-        if (SceneManager.GetActiveScene().buildIndex > 1)
-        {
-            // LevelStartSound();
-        }
-        // else if (SceneManager.GetActiveScene().buildIndex == 1)
-        // myFx.PlayOneShot(GaleryOpen);
     }
 
-    void Update()
+    private void Update()
     {
         myFx.volume = volume;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
+            if (gameIsPaused)
             {
                 if (menuTurnedOn)
                 {
@@ -55,7 +45,9 @@ public class LevelsMenuWithGalleryButton : MonoBehaviour
                     Resume();
                 }
                 else
+                {
                     SettingsExit();
+                }
             }
             else
             {
@@ -75,7 +67,7 @@ public class LevelsMenuWithGalleryButton : MonoBehaviour
             buttonIndex -= 1;
         }
 
-        if (!menuTurnedOn && GameIsPaused)
+        if (!menuTurnedOn && gameIsPaused)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow) && volume < 1f)
             {
@@ -110,7 +102,6 @@ public class LevelsMenuWithGalleryButton : MonoBehaviour
 
 
         if (Input.GetKeyDown(KeyCode.Return) && menuTurnedOn)
-        {
             switch (buttonIndex)
             {
                 case 0:
@@ -132,10 +123,8 @@ public class LevelsMenuWithGalleryButton : MonoBehaviour
                     QuitGame();
                     break;
             }
-        }
 
         if (menuTurnedOn)
-        {
             switch (buttonIndex)
             {
                 case 0:
@@ -154,7 +143,6 @@ public class LevelsMenuWithGalleryButton : MonoBehaviour
                     pointer.Play("GalleryChoice", -1, 0.5f);
                     break;
             }
-        }
     }
 
     private void Resume()
@@ -162,7 +150,7 @@ public class LevelsMenuWithGalleryButton : MonoBehaviour
         pauseMenuUI.SetActive(false);
         settingsMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        GameIsPaused = false;
+        gameIsPaused = false;
         menuTurnedOn = false;
     }
 
@@ -171,7 +159,7 @@ public class LevelsMenuWithGalleryButton : MonoBehaviour
         HoverSound();
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        GameIsPaused = true;
+        gameIsPaused = true;
         menuTurnedOn = true;
     }
 

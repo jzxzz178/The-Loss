@@ -1,46 +1,34 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using UnityEngine.Windows.Speech;
-
 
 [RequireComponent(typeof(LineRenderer))]
 public class LineMaker : MonoBehaviour
 {
-    [SerializeField, Range(0f, 1f)] private float lineStartWidth = 0.4f;
-    [SerializeField, Range(0f, 1f)] private float lineEndWidth = 0.4f;
+    [SerializeField] [Range(0f, 1f)] private float lineStartWidth = 0.4f;
+    [SerializeField] [Range(0f, 1f)] private float lineEndWidth = 0.4f;
 
     public LineRenderer line;
-    private readonly List<ParticleSystem> particles = new List<ParticleSystem>();
 
     public Vector3 startPoint;
     public Vector3 endPoint;
 
     public Vector3 firstPlayerPosition;
     public Vector3 secondPlayerPosition;
+    private readonly List<ParticleSystem> particles = new List<ParticleSystem>();
 
     private GameObject firstPlayer;
-    private GameObject secondPlayer;
 
     private bool flag;
     private float min;
-
-    public void ChangePlayers(GameObject first, GameObject second)
-    {
-        firstPlayer = first;
-        secondPlayer = second;
-    }
+    private GameObject secondPlayer;
 
     public void Start()
     {
         line.startWidth = lineStartWidth;
         line.endWidth = lineEndWidth;
         line.positionCount = 0;
-        for (int i = 0; i < gameObject.transform.childCount; i++)
+        for (var i = 0; i < gameObject.transform.childCount; i++)
             particles.Add(gameObject.transform.GetChild(i).GetComponent<ParticleSystem>());
     }
 
@@ -74,16 +62,13 @@ public class LineMaker : MonoBehaviour
 
         line.SetPosition(0, startPoint);
         line.SetPosition(1, endPoint);
-        foreach (var t in particles)
-        {
-            t.transform.position = line.GetPosition(1);
-        }
-        // if(TotalNewControl.CheckForConnection(secondPlayer))
-        //     foreach (var t in paricles)
-        //         t.Stop();
-        // else
-        //     foreach (var t in paricles)
-        //         t.Play();
+        foreach (var t in particles) t.transform.position = line.GetPosition(1);
+    }
+
+    public void ChangePlayers(GameObject first, GameObject second)
+    {
+        firstPlayer = first;
+        secondPlayer = second;
     }
 
     private void ChangeEndPoint(Vector3 pos, Vector3 scale)
@@ -101,7 +86,7 @@ public class LineMaker : MonoBehaviour
             var point1 = points[i];
             var point2 = points[i + 1];
 
-            Vector2? intersectionPoint =
+            var intersectionPoint =
                 FindIntersectionPoint(secondPlayerPosition.x, secondPlayerPosition.y, firstPlayerPosition.x,
                     firstPlayerPosition.y, point1.x, point1.y, point2.x, point2.y);
             if (intersectionPoint == null) continue;
@@ -163,7 +148,7 @@ public class LineMaker : MonoBehaviour
         {
             var k1 = (fstPlrPosY - sndPlrPosY) / (fstPlrPosX - sndPlrPosX);
             var k2 = (point2Y - point1Y) / (point2X - point1X);
-            if ((float) Math.Abs(k1 - k2) <= 10e-7f) return null;
+            if (Math.Abs(k1 - k2) <= 10e-7f) return null;
             var b1 = sndPlrPosY - k1 * sndPlrPosX;
             var b2 = point1Y - k2 * point1X;
             x = (b2 - b1) / (k1 - k2);
