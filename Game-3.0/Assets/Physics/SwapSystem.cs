@@ -41,7 +41,7 @@ public partial class @SwapSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""06d0863e-ada4-4b94-a35f-3bb9844efab6"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

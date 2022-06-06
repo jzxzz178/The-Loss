@@ -584,7 +584,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4521373066405569671, guid: 675a8cf1fbcbd1e48a373384a4336c61, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.1
+      value: 3.58
       objectReference: {fileID: 0}
     - target: {fileID: 4521373066405569671, guid: 675a8cf1fbcbd1e48a373384a4336c61, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1139,7 +1139,7 @@ GameObject:
   - component: {fileID: 1261452246}
   - component: {fileID: 1261452245}
   m_Layer: 0
-  m_Name: white A-D with edges only
+  m_Name: A-D hint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2280,7 +2280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4521373066405569671, guid: 675a8cf1fbcbd1e48a373384a4336c61, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.78
+      value: -1.32
       objectReference: {fileID: 0}
     - target: {fileID: 4521373066405569671, guid: 675a8cf1fbcbd1e48a373384a4336c61, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3232,7 +3232,7 @@ GameObject:
   - component: {fileID: 2008950637}
   - component: {fileID: 2008950636}
   m_Layer: 0
-  m_Name: Tab
+  m_Name: Enter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3309,7 +3309,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: d1ffba2386f671a4aaf9a7dc4d441efb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1273f46404e0ed54c8dd59d9e136de54, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

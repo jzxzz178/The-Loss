@@ -69,7 +69,7 @@ public class Movement : MonoBehaviour
 
     private void Move(float axis)
     {
-        if (SceneManager.GetActiveScene().name == "First Scene" || SceneManager.GetActiveScene().name == "Gallery")
+        if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 4)
             MoveHint.StartAnimation();
         tempAxis = axis;
         if (!Control.CheckForConnection(player)) return;
@@ -82,7 +82,7 @@ public class Movement : MonoBehaviour
     private void Jump()
     {
         if (!isGrounded || !Control.CheckForConnection(player)) return;
-        if (SceneManager.GetActiveScene().name == "First Scene") SpaceHint.StartAnimation();
+        if (SceneManager.GetActiveScene().buildIndex == 1) SpaceHint.StartAnimation();
         rigidbody.velocity = new Vector2(movementX, jumpForce);
         isGrounded = false;
     }

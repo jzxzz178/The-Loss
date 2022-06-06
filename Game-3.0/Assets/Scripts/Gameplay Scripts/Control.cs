@@ -77,7 +77,7 @@ public class Control : MonoBehaviour
     private static void Swap()
     {
         if (!tabList.IsAbleToSwap()) return;
-        if (SceneManager.GetActiveScene().name == "First Scene") TabHint.StartAnimation();
+        if (SceneManager.GetActiveScene().buildIndex == 1) TabHint.StartAnimation();
         var player = tabList.TakePlayerToSwap();
         var i = 0;
         foreach (var line in lines)
