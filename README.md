@@ -1,1 +1,1 @@
-# Game-proj-2.0
+# 2D indie game "The Loss", created by first-year students UrFU FIIT
